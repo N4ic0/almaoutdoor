@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Cuenta - AlmaOutdoor Chile</title>
+  <link rel="icon" type="image/png" href="img/logo/icono.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .purchased-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: #22c55e;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      z-index: 2;
+    }
+    .download-btn {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h2><img src="img/logo/Logo_AlmaOutdoor2.png" alt="AlmaOutdoor"> Mi Cuenta</h2>
+    <ul class="admin-nav">
+      <li><a href="#" class="active" data-section="galeria"><i class="fas fa-images"></i> Mi Galería</a></li>
+      <li><a href="#" data-section="compras"><i class="fas fa-shopping-bag"></i> Mis Compras</a></li>
+      <li><a href="#" data-section="perfil"><i class="fas fa-user"></i> Mi Perfil</a></li>
+      <li><a href="index.html"><i class="fas fa-arrow-left"></i> Volver al Sitio</a></li>
+      <li><a href="#" id="userLogout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+    </ul>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1 id="userPageTitle">Mi Galería</h1>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-primary btn-sm" id="themeToggleUser"><i class="fas fa-moon"></i></button>
+        <span id="userNameDisplay" style="padding:8px 16px;background:var(--bg-card);border-radius:var(--radius-sm);border:1px solid var(--border);font-weight:600;"></span>
+      </div>
+    </div>
+
+    <!-- Galería -->
+    <section id="section-galeria">
+      <div style="margin-bottom:20px;">
+        <h3 style="margin-bottom:8px;">Galería de Imágenes</h3>
+        <p style="color:var(--text-muted);margin-bottom:16px;">Selecciona las imágenes que deseas descargar. Las imágenes tienen marca de agua hasta que sean adquiridas.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+          <button class="btn btn-primary btn-sm" id="selectAllBtn"><i class="fas fa-check-double"></i> Seleccionar todas</button>
+          <button class="btn btn-secondary btn-sm" id="deselectAllBtn"><i class="fas fa-times"></i> Deseleccionar</button>
+          <button class="btn btn-primary btn-sm" id="buySelectedBtn"><i class="fas fa-shopping-cart"></i> Comprar seleccionadas</button>
+        </div>
+      </div>
+      <div class="gallery-grid-user" id="userGalleryGrid">
+        <p style="color:var(--text-muted);">Cargando galería...</p>
+      </div>
+    </section>
+
+    <!-- Compras -->
+    <section id="section-compras" style="display:none;">
+      <h3 style="margin-bottom:16px;">Historial de Compras</h3>
+      <div style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
+        <table class="admin-table">
+          <thead><tr><th>Fecha</th><th>Descripción</th><th>Monto</th><th>Estado</th></tr></thead>
+          <tbody id="purchasesTableBody">
+            <tr><td colspan="4" style="text-align:center;color:var(--text-muted);">No tienes compras registradas</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Perfil -->
+    <section id="section-perfil" style="display:none;">
+      <div style="max-width:500px;">
+        <div style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
+          <h3 style="margin-bottom:20px;">Mi Perfil</h3>
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" class="form-control" id="profileName" disabled>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" id="profileEmail" disabled>
+          </div>
+          <div class="form-group">
+            <label>Teléfono</label>
+            <input type="tel" class="form-control" id="profilePhone" disabled>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const CONFIG = {
+  whatsapp: '+56976295343',
+  email: 'almaoutdoorchile@gmail.com'
+};
+
+function formatCurrency(n) { return '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
+let userState = {
+  currentUser: null,
+  gallery: [],
+  purchased: JSON.parse(localStorage.getItem('almaoutdoor_user_purchases') || '[]'),
+  selectedImages: new Set()
+};
+
+/* Check auth */
+(function() {
+  const saved = localStorage.getItem('almaoutdoor_state');
+  if (saved) {
+    const st = JSON.parse(saved);
+    if (!st.user || st.user.role !== 'user') {
+      window.location.href = 'index.html';
+    }
+    userState.currentUser = st.user;
+  } else {
+    window.location.href = 'index.html';
+  }
+})();
+
+/* Navigation */
+document.querySelectorAll('.admin-nav a[data-section]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.admin-nav a').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.admin-main section[id^="section-"]').forEach(s => s.style.display = 'none');
+    document.getElementById('section-' + this.dataset.section).style.display = 'block';
+    document.getElementById('userPageTitle').textContent = this.textContent.trim();
+  });
+});
+
+/* Theme */
+(function() {
+  const saved = localStorage.getItem('almaoutdoor_theme');
+  const html = document.documentElement;
+  if (saved) html.dataset.theme = saved;
+  document.getElementById('themeToggleUser').addEventListener('click', () => {
+    const isDark = html.dataset.theme === 'dark';
+    html.dataset.theme = isDark ? 'light' : 'dark';
+    document.getElementById('themeToggleUser').innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    localStorage.setItem('almaoutdoor_theme', html.dataset.theme);
+  });
+  document.getElementById('themeToggleUser').innerHTML = html.dataset.theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+})();
+
+/* Logout */
+document.getElementById('userLogout').addEventListener('click', function(e) {
+  e.preventDefault();
+  const saved = JSON.parse(localStorage.getItem('almaoutdoor_state') || '{}');
+  saved.user = null;
+  localStorage.setItem('almaoutdoor_state', JSON.stringify(saved));
+  window.location.href = 'index.html';
+});
+
+/* Load gallery */
+function loadUserGallery() {
+  const allGallery = JSON.parse(localStorage.getItem('almaoutdoor_gallery') || '[]');
+  const userEmail = userState.currentUser.email;
+  userState.gallery = allGallery.filter(img => img.userId === 'all' || img.userId === userEmail);
+  renderUserGallery();
+}
+
+function renderUserGallery() {
+  const grid = document.getElementById('userGalleryGrid');
+  if (userState.gallery.length === 0) {
+    grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:40px;">No hay imágenes disponibles para tu cuenta aún. Vuelve pronto.</p>';
+    return;
+  }
+
+  grid.innerHTML = userState.gallery.map((img, i) => {
+    const isPurchased = userState.purchased.includes(img.id);
+    const isSelected = userState.selectedImages.has(img.id);
+    return `
+      <div class="gallery-user-item${isPurchased ? '' : ' watermarked'}" style="position:relative;${isSelected ? 'outline:3px solid var(--primary);outline-offset:-3px;' : ''}" onclick="toggleSelectImage('${img.id}')">
+        <img src="${img.src}" alt="${img.name}" loading="lazy">
+        ${!isPurchased ? '<div class="watermark-overlay"><img src="img/logo/Logo_AlmaOutdoor2.png" alt="wm"></div>' : ''}
+        ${isPurchased ? '<div class="purchased-badge"><i class="fas fa-check"></i> Adquirida</div>' : ''}
+        ${isSelected ? '<div style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;z-index:2;"><i class="fas fa-check"></i></div>' : ''}
+        ${isPurchased ? '<button class="btn btn-primary btn-sm download-btn" onclick="event.stopPropagation();downloadImage(' + i + ')"><i class="fas fa-download"></i> Descargar</button>' : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleSelectImage(id) {
+  if (userState.selectedImages.has(id)) {
+    userState.selectedImages.delete(id);
+  } else {
+    userState.selectedImages.add(id);
+  }
+  renderUserGallery();
+}
+
+document.getElementById('selectAllBtn').addEventListener('click', () => {
+  userState.gallery.forEach(img => {
+    if (!userState.purchased.includes(img.id)) {
+      userState.selectedImages.add(img.id);
+    }
+  });
+  renderUserGallery();
+});
+
+document.getElementById('deselectAllBtn').addEventListener('click', () => {
+  userState.selectedImages.clear();
+  renderUserGallery();
+});
+
+document.getElementById('buySelectedBtn').addEventListener('click', () => {
+  if (userState.selectedImages.size === 0) {
+    showToast('Selecciona imágenes para comprar', 'error');
+    return;
+  }
+  const total = userState.selectedImages.size * 5000;
+  if (!confirm('¿Comprar ' + userState.selectedImages.size + ' imágenes (sin marca de agua) por ' + formatCurrency(total) + '?')) return;
+
+  userState.selectedImages.forEach(id => {
+    if (!userState.purchased.includes(id)) {
+      userState.purchased.push(id);
+    }
+  });
+
+  const purchases = JSON.parse(localStorage.getItem('almaoutdoor_user_purchases') || '[]');
+  userState.purchased.forEach(id => {
+    if (!purchases.includes(id)) purchases.push(id);
+  });
+  localStorage.setItem('almaoutdoor_user_purchases', JSON.stringify(purchases));
+
+  const sales = JSON.parse(localStorage.getItem('almaoutdoor_sales') || '[]');
+  sales.push({
+    client: userState.currentUser.name,
+    services: userState.selectedImages.size + ' imágenes',
+    date: new Date().toISOString().split('T')[0],
+    total: total,
+    method: 'Galería',
+    time: new Date().toTimeString().split(' ')[0].substring(0, 5)
+  });
+  localStorage.setItem('almaoutdoor_sales', JSON.stringify(sales));
+
+  userState.selectedImages.clear();
+  showToast(userState.selectedImages.size + ' imágenes adquiridas exitosamente', 'success');
+  renderUserGallery();
+  loadPurchases();
+});
+
+function downloadImage(i) {
+  const img = userState.gallery[i];
+  const a = document.createElement('a');
+  a.href = img.src;
+  a.download = img.name || 'almaoutdoor_' + i + '.jpg';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => a.remove(), 100);
+  showToast('Descargando imagen...', 'success');
+}
+
+/* Purchases */
+function loadPurchases() {
+  const tbody = document.getElementById('purchasesTableBody');
+  const sales = JSON.parse(localStorage.getItem('almaoutdoor_sales') || '[]');
+  const userSales = sales.filter(s => s.client === userState.currentUser.name);
+  if (userSales.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-muted);">No tienes compras registradas</td></tr>';
+    return;
+  }
+  tbody.innerHTML = userSales.map(s => `
+    <tr>
+      <td>${s.date}</td>
+      <td>${s.services}</td>
+      <td>${formatCurrency(s.total)}</td>
+      <td><span class="avail-badge available">Completado</span></td>
+    </tr>
+  `).join('');
+}
+
+/* Profile */
+function loadProfile() {
+  const users = JSON.parse(localStorage.getItem('almaoutdoor_users') || '[]');
+  const user = users.find(u => u.email === userState.currentUser.email);
+  if (user) {
+    document.getElementById('profileName').value = user.name || '';
+    document.getElementById('profileEmail').value = user.email || '';
+    document.getElementById('profilePhone').value = user.phone || '';
+  }
+
+  const nameDisplay = document.getElementById('userNameDisplay');
+  nameDisplay.textContent = '\u{1F464} ' + (user ? user.name : userState.currentUser.email);
+}
+
+/* Toast */
+function showToast(msg, type) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+/* Init */
+loadUserGallery();
+loadPurchases();
+loadProfile();
+</script>
+</body>
+</html>

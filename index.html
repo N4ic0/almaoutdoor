@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AlmaOutdoor Chile - Turismo Aventura en Parapente</title>
+  <meta name="description"
+    content="Vive la experiencia del parapente en Chile con AlmaOutdoor. Vuelos individuales, en tándem, cursos y más. Reserva tu aventura ahora.">
+  <link rel="icon" type="image/png" href="img/logo/icono.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <img src="img/logo/Logo_AlmaOutdoor2.png" alt="AlmaOutdoor Chile">
+        <span></span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#galeria">Galería</a>
+        <a href="#reservas">Reservas</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo oscuro/claro">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="cart-btn" id="cartBtn" aria-label="Carrito de compras">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="btn btn-primary btn-sm" id="loginBtn"><i class="fas fa-user"></i> Ingresar</button>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="inicio">
+    <div class="hero-slideshow" id="heroSlideshow"></div>
+    <div class="container hero-content">
+      <h1>Descubre la <span>Libertad</span> de Volar</h1>
+      <p>Vive la experiencia única de volar en parapente sobre los paisajes más hermosos de Chile. Adrenalina,
+        naturaleza y paz en un solo lugar.</p>
+      <div class="hero-buttons">
+        <a href="#servicios" class="btn btn-primary"><i class="fas fa-mountain"></i> Ver Servicios</a>
+        <a href="#reservas" class="btn btn-outline"><i class="fas fa-calendar-check"></i> Reservar Ahora</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Descubre más</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section" id="servicios">
+    <div class="container">
+      <h2 class="section-title reveal">Nuestros Servicios</h2>
+      <p class="section-subtitle reveal">Elige tu aventura y prepárate para volar. Todos nuestros vuelos incluyen equipo
+        de seguridad y seguro.</p>
+      <div class="services-grid" id="servicesGrid"></div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section" id="galeria" style="background:var(--bg-alt);">
+    <div class="container">
+      <h2 class="section-title reveal">Galería de Vuelos</h2>
+      <p class="section-subtitle reveal">Momentos únicos capturados desde el cielo. Cada vuelo es una historia que
+        contar.</p>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+  </section>
+
+  <!-- Booking -->
+  <section class="section booking-section" id="reservas">
+    <div class="container">
+      <h2 class="section-title reveal">Reserva tu Vuelo</h2>
+      <p class="section-subtitle reveal">Selecciona la fecha y hora para tu aventura. Horarios disponibles según
+        temporada.</p>
+      <div class="booking-grid">
+        <div>
+          <div class="calendar-container reveal">
+            <div class="calendar-header">
+              <h3 id="calendarMonthYear"></h3>
+              <div class="calendar-nav">
+                <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
+            <div class="calendar-weekdays">
+              <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
+            </div>
+            <div class="calendar-days" id="calendarDays"></div>
+          </div>
+          <div class="time-slots reveal" id="timeSlotsContainer">
+            <h3><i class="fas fa-clock"></i> Horarios Disponibles</h3>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:16px;">Selecciona una fecha para ver los
+              horarios</p>
+            <div class="time-slots-grid" id="timeSlotsGrid"></div>
+          </div>
+        </div>
+        <div>
+          <div class="booking-summary reveal">
+            <h3><i class="fas fa-file-invoice"></i> Resumen de Reserva</h3>
+            <div id="bookingSummaryItems">
+              <p style="color:var(--text-muted);font-size:0.9rem;">Selecciona servicios y fecha para continuar</p>
+            </div>
+            <div class="booking-summary-total" id="bookingTotal">$0</div>
+            <button class="btn btn-primary" style="width:100%;margin-top:16px;" id="bookingCheckoutBtn">
+              <i class="fas fa-arrow-right"></i> Continuar al Pago
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="nosotros">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image reveal">
+          <img src="img/aventura/GS010036_1765600136075.jpg" alt="AlmaOutdoor Chile - Vuelo en parapente">
+        </div>
+        <div class="about-content reveal">
+          <h2>Somos AlmaOutdoor Chile</h2>
+          <p>En AlmaOutdoor Chile vivimos y respiramos la aventura. Somos apasionados del parapente y dedicados a
+            brindarte experiencias inolvidables en los cielos de Chile.</p>
+          <p>Con instructores certificados y equipos de última generación, garantizamos tu seguridad mientras disfrutas
+            de vistas panorámicas que te dejarán sin aliento. Cada vuelo es único, cada momento, eterno.</p>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Vuelos Realizados</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Satisfacción</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">12+</div>
+              <div class="stat-label">Años de Experiencia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" style="background:var(--bg-alt);">
+    <div class="container">
+      <h2 class="section-title reveal">Lo que dicen nuestros aventureros</h2>
+      <p class="section-subtitle reveal">La mejor experiencia de sus vidas, según quienes ya volaron con nosotros.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;"
+        id="testimonialsGrid">
+        <div class="testimonial-card"
+          style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
+          <div style="display:flex;gap:4px;color:#fbbf24;margin-bottom:12px;">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+              class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p style="color:var(--text-muted);margin-bottom:16px;font-style:italic;">"Una experiencia increíble, volar
+            sobre los Andes fue algo que nunca olvidaré. El equipo de AlmaOutdoor es muy profesional y te hace sentir
+            seguro en todo momento."</p>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div
+              style="width:44px;height:44px;border-radius:50%;background:var(--gradient-1);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">
+              MC</div>
+            <div><strong>María Campos</strong><br><span style="font-size:0.85rem;color:var(--text-muted);">Vuelo
+                Individual</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card"
+          style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
+          <div style="display:flex;gap:4px;color:#fbbf24;margin-bottom:12px;">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+              class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p style="color:var(--text-muted);margin-bottom:16px;font-style:italic;">"Hicimos el vuelo en tándem con mi
+            pareja y fue mágico. Las fotos con la GoPro 360 quedaron espectaculares. 100% recomendado."</p>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div
+              style="width:44px;height:44px;border-radius:50%;background:var(--secondary);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">
+              PR</div>
+            <div><strong>Pedro Rojas</strong><br><span style="font-size:0.85rem;color:var(--text-muted);">Vuelo x 2 +
+                Fotos</span></div>
+          </div>
+        </div>
+        <div class="testimonial-card"
+          style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
+          <div style="display:flex;gap:4px;color:#fbbf24;margin-bottom:12px;">
+            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+              class="fas fa-star"></i><i class="fas fa-star"></i>
+          </div>
+          <p style="color:var(--text-muted);margin-bottom:16px;font-style:italic;">"Hice el curso de piloto y fue
+            transformador. Los instructores son de primer nivel, aprendí mucho y ahora vuelo por mi cuenta. ¡Gracias
+            AlmaOutdoor!"</p>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div
+              style="width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;">
+              JL</div>
+            <div><strong>Jorge López</strong><br><span style="font-size:0.85rem;color:var(--text-muted);">Curso
+                Piloto</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contacto">
+    <div class="container">
+      <h2 class="section-title reveal">Contáctanos</h2>
+      <p class="section-subtitle reveal">¿Tienes dudas? Escríbenos y te responderemos a la brevedad.</p>
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fab fa-whatsapp"></i></div>
+            <div>
+              <h4>WhatsApp</h4>
+              <p>+56 9 7629 5343</p>
+              <a href="https://wa.me/56976295343" target="_blank" class="btn btn-primary btn-sm"
+                style="margin-top:8px;"><i class="fab fa-whatsapp"></i> Escribir ahora</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <h4>Email</h4>
+              <p>almaoutdoorchile@gmail.com</p>
+              <a href="mailto:almaoutdoorchile@gmail.com" class="btn btn-secondary btn-sm" style="margin-top:8px;"><i
+                  class="fas fa-envelope"></i> Enviar correo</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <h4>Ubicación</h4>
+              <p>Chile - Disponible en varias regiones</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <h4>Horarios</h4>
+              <p><strong>Invierno:</strong> Mié-Dom 12:00-16:00</p>
+              <p><strong>Verano:</strong> Mié-Dom 11:00-20:00</p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-form reveal">
+          <form id="contactForm">
+            <div class="form-group">
+              <label>Nombre completo</label>
+              <input type="text" class="form-control" required placeholder="Tu nombre">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="form-control" required placeholder="tu@email.com">
+            </div>
+            <div class="form-group">
+              <label>Mensaje</label>
+              <textarea class="form-control" required placeholder="¿En qué podemos ayudarte?"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-paper-plane"></i> Enviar
+              Mensaje</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="img/logo/Logo_AlmaOutdoor2.png" alt="AlmaOutdoor Chile">
+          <p>Somos una empresa chilena de turismo aventura especializada en parapente. Vivimos por volar y volamos para
+            vivir.</p>
+          <div class="social-links" style="margin-top:16px;">
+            <a href="https://www.instagram.com/almaoutdoor_chile"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/AlmaOutdoorChile"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/56976295343" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="mailto:almaoutdoorchile@gmail.com"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Servicios</h4>
+          <ul class="footer-links">
+            <li><a href="#servicios">Vuelo Individual</a></li>
+            <li><a href="#servicios">Vuelo x 2</a></li>
+            <li><a href="#servicios">Fotos GoPro 360</a></li>
+            <li><a href="#servicios">Curso Piloto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Enlaces</h4>
+          <ul class="footer-links">
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#reservas">Reservas</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul class="footer-links">
+            <li><a href="https://wa.me/56976295343" target="_blank">+56 9 7629 5343</a></li>
+            <li><a href="mailto:almaoutdoorchile@gmail.com">almaoutdoorchile@gmail.com</a></li>
+            <li><a href="#">Chile</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 AlmaOutdoor Chile. Todos los derechos reservados.</span>
+        <span>Diseñado con <i class="fas fa-heart" style="color:var(--primary);"></i> para aventureros</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <button class="whatsapp-float" id="whatsappFloat" aria-label="Chat de WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </button>
+
+  <!-- WhatsApp Chat Widget -->
+  <div class="chat-widget" id="chatWidget">
+    <div class="chat-header">
+      <div class="chat-header-avatar"><i class="fab fa-whatsapp"></i></div>
+      <div class="chat-header-info">
+        <h4>AlmaOutdoor Chile</h4>
+        <p>Online - Respondemos al instante</p>
+      </div>
+      <button class="chat-close" id="chatClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">¡Hola! 👋 Soy el asistente de AlmaOutdoor Chile. ¿En qué puedo ayudarte? Puedo consultar
+        disponibilidad, ayudarte a reservar o responder tus dudas.</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Escribe tu mensaje..." autocomplete="off">
+      <button class="chat-send-btn" id="chatSend"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="modal" id="cartModal">
+    <div class="modal-overlay" data-close="cartModal"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-shopping-cart"></i> Tu Carrito</h2>
+        <button class="modal-close" data-close="cartModal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotalAmount">$0</span>
+      </div>
+      <button class="btn btn-primary" style="width:100%;" id="cartCheckoutBtn">
+        <i class="fas fa-arrow-right"></i> Proceder al Pago
+      </button>
+    </div>
+  </div>
+
+  <!-- Booking/Payment Modal -->
+  <div class="modal" id="paymentModal">
+    <div class="modal-overlay" data-close="paymentModal"></div>
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h2 id="paymentModalTitle"><i class="fas fa-credit-card"></i> Finalizar Compra</h2>
+        <button class="modal-close" data-close="paymentModal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="steps" id="paymentSteps">
+        <div class="step active" data-step="1"><span class="step-number">1</span> Datos</div>
+        <div class="step" data-step="2"><span class="step-number">2</span> Pago</div>
+        <div class="step" data-step="3"><span class="step-number">3</span> Confirmación</div>
+      </div>
+      <!-- Step 1: Billing data -->
+      <div class="payment-step" id="paymentStep1">
+        <h3 style="margin-bottom:16px;">Datos de Facturación</h3>
+        <form id="billingForm" class="billing-form">
+          <div class="form-group">
+            <label>Nombres *</label>
+            <input type="text" class="form-control" id="billingNombres" required>
+          </div>
+          <div class="form-group">
+            <label>Apellidos *</label>
+            <input type="text" class="form-control" id="billingApellidos" required>
+          </div>
+          <div class="form-group">
+            <label>RUT *</label>
+            <input type="text" class="form-control" id="billingRut" required placeholder="12.345.678-9">
+          </div>
+          <div class="form-group">
+            <label>País *</label>
+            <select class="form-control" id="billingPais" required>
+              <option value="">Seleccionar país</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Región *</label>
+            <select class="form-control" id="billingRegion" required>
+              <option value="">Seleccionar región</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Comuna *</label>
+            <select class="form-control" id="billingComuna" required>
+              <option value="">Seleccionar comuna</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Dirección *</label>
+            <input type="text" class="form-control" id="billingDireccion" required>
+          </div>
+          <div class="form-group">
+            <label>Ciudad *</label>
+            <input type="text" class="form-control" id="billingCiudad" required>
+          </div>
+          <div class="form-group full-width">
+            <label>Email *</label>
+            <input type="email" class="form-control" id="billingEmail" required value="almaoutdoorchile@gmail.com">
+          </div>
+          <div class="form-group full-width">
+            <label>Teléfono *</label>
+            <input type="tel" class="form-control" id="billingTelefono" required>
+          </div>
+          <div class="full-width" style="display:flex;gap:12px;margin-top:8px;">
+            <button type="button" class="btn btn-secondary" data-close="paymentModal"><i class="fas fa-times"></i>
+              Cancelar</button>
+            <button type="submit" class="btn btn-primary" style="flex:1;"><i class="fas fa-arrow-right"></i> Continuar
+              al Pago</button>
+          </div>
+        </form>
+      </div>
+      <!-- Step 2: Payment -->
+      <div class="payment-step" id="paymentStep2" style="display:none;">
+        <h3 style="margin-bottom:8px;">Método de Pago</h3>
+        <p style="color:var(--text-muted);margin-bottom:16px;">Selecciona tu método de pago preferido</p>
+        <div class="payment-methods">
+          <div class="payment-method" data-method="visa" onclick="selectPayment(this)">
+            <i class="fab fa-cc-visa"></i>
+            Visa
+          </div>
+          <div class="payment-method" data-method="mastercard" onclick="selectPayment(this)">
+            <i class="fab fa-cc-mastercard"></i>
+            Mastercard
+          </div>
+          <div class="payment-method" data-method="redcompra" onclick="selectPayment(this)">
+            <i class="fas fa-credit-card"></i>
+            Red Compra
+          </div>
+          <div class="payment-method" data-method="amex" onclick="selectPayment(this)">
+            <i class="fab fa-cc-amex"></i>
+            American Express
+          </div>
+          <div class="payment-method" data-method="diners" onclick="selectPayment(this)">
+            <i class="fas fa-credit-card"></i>
+            Diners
+          </div>
+          <div class="payment-method" data-method="magna" onclick="selectPayment(this)">
+            <i class="fas fa-credit-card"></i>
+            Magna
+          </div>
+          <div class="payment-method" data-method="khipu" onclick="selectPayment(this)">
+            <i class="fas fa-university"></i>
+            Khipu
+          </div>
+          <div class="payment-method" data-method="bancame" onclick="selectPayment(this)">
+            <i class="fas fa-coins"></i>
+            Banca.me
+          </div>
+          <div class="payment-method" data-method="onepay" onclick="selectPayment(this)">
+            <i class="fas fa-wallet"></i>
+            Onepay
+          </div>
+          <div class="payment-method" data-method="mach" onclick="selectPayment(this)">
+            <i class="fas fa-mobile-alt"></i>
+            MACH
+          </div>
+          <div class="payment-method" data-method="bci" onclick="selectPayment(this)">
+            <i class="fas fa-mobile-alt"></i>
+            BCI
+          </div>
+        </div>
+        <div id="paymentSummary"
+          style="background:var(--bg-alt);border-radius:var(--radius-sm);padding:16px;margin:16px 0;">
+          <h4>Resumen de Compra</h4>
+          <div id="paymentSummaryItems"></div>
+          <div
+            style="display:flex;justify-content:space-between;font-size:1.2rem;font-weight:800;color:var(--primary);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+            <span>Total a pagar:</span>
+            <span id="paymentTotal">$0</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-secondary" onclick="showPaymentStep(1)"><i class="fas fa-arrow-left"></i>
+            Volver</button>
+          <button class="btn btn-primary" style="flex:1;" id="payBtn"><i class="fas fa-lock"></i> Pagar con
+            Flow</button>
+        </div>
+      </div>
+      <!-- Step 3: Confirmation -->
+      <div class="payment-step" id="paymentStep3" style="display:none;">
+        <div style="text-align:center;padding:40px 0;">
+          <div style="font-size:4rem;color:#22c55e;margin-bottom:20px;"><i class="fas fa-check-circle"></i></div>
+          <h2 style="margin-bottom:12px;">¡Pago Exitoso!</h2>
+          <p style="color:var(--text-muted);margin-bottom:8px;">Tu reserva ha sido confirmada.</p>
+          <p style="color:var(--text-muted);margin-bottom:24px;">Recibirás los detalles en tu correo y WhatsApp.</p>
+          <div id="confirmationDetails"
+            style="background:var(--bg-alt);border-radius:var(--radius);padding:20px;text-align:left;margin-bottom:24px;">
+          </div>
+          <button class="btn btn-primary" data-close="paymentModal"><i class="fas fa-check"></i> Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-overlay" data-close="authModal"></div>
+    <div class="modal-content" style="max-width:420px;">
+      <div class="modal-header">
+        <h2><i class="fas fa-user-lock"></i> Acceder</h2>
+        <button class="modal-close" data-close="authModal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Iniciar Sesión</button>
+        <button class="auth-tab" data-tab="register">Registrarse</button>
+      </div>
+      <!-- Login -->
+      <form class="auth-form active" id="loginForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" id="loginEmail" required placeholder="tu@email.com">
+        </div>
+        <div class="form-group">
+          <label>Código de 6 dígitos</label>
+          <input type="text" class="form-control" id="loginCode" required placeholder="Ingresa el código recibido"
+            maxlength="6" pattern="[0-9]{6}">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-sign-in-alt"></i>
+          Ingresar</button>
+        <p style="text-align:center;margin-top:12px;font-size:0.85rem;color:var(--text-muted);">
+          ¿No tienes código? <a href="#" id="requestCodeLink">Solicitar código</a>
+        </p>
+      </form>
+      <!-- Register -->
+      <form class="auth-form" id="registerForm">
+        <div class="form-group">
+          <label>Nombres</label>
+          <input type="text" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Apellidos</label>
+          <input type="text" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-user-plus"></i>
+          Registrarse</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-overlay" data-close="lightbox"></div>
+    <button class="lightbox-nav prev" id="lbPrev"><i class="fas fa-chevron-left"></i></button>
+    <button class="lightbox-nav next" id="lbNext"><i class="fas fa-chevron-right"></i></button>
+    <button class="lightbox-close" data-close="lightbox"><i class="fas fa-times"></i></button>
+    <div class="lightbox-content" id="lightboxContent"></div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>

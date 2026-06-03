@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin - AlmaOutdoor Chile</title>
+  <link rel="icon" type="image/png" href="img/logo/icono.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h2><img src="img/logo/Logo_AlmaOutdoor2.png" alt="AlmaOutdoor"> Admin</h2>
+    <ul class="admin-nav">
+      <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+      <li><a href="#" data-section="galeria"><i class="fas fa-images"></i> Galería</a></li>
+      <li><a href="#" data-section="reservas"><i class="fas fa-calendar-alt"></i> Reservas</a></li>
+      <li><a href="#" data-section="reportes"><i class="fas fa-file-invoice-dollar"></i> Reportes</a></li>
+      <li><a href="#" data-section="usuarios"><i class="fas fa-users"></i> Usuarios</a></li>
+      <li><a href="index.html"><i class="fas fa-arrow-left"></i> Volver al Sitio</a></li>
+      <li><a href="#" id="adminLogout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+    </ul>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1 id="adminPageTitle">Dashboard</h1>
+      <button class="btn btn-primary btn-sm" id="themeToggleAdmin"><i class="fas fa-moon"></i></button>
+    </div>
+
+    <!-- Dashboard -->
+    <section id="section-dashboard">
+      <div class="admin-grid">
+        <div class="admin-card"><h3>Ventas Totales</h3><div class="value" id="totalSales">$0</div></div>
+        <div class="admin-card"><h3>Reservas Hoy</h3><div class="value" id="todayBookings">0</div></div>
+        <div class="admin-card"><h3>Usuarios Registrados</h3><div class="value" id="totalUsers">0</div></div>
+        <div class="admin-card"><h3>Ingresos del Mes</h3><div class="value" id="monthlyIncome">$0</div></div>
+      </div>
+      <div style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
+        <h3 style="margin-bottom:16px;">Últimas Reservas</h3>
+        <table class="admin-table">
+          <thead><tr><th>Cliente</th><th>Servicio</th><th>Fecha</th><th>Hora</th><th>Total</th><th>Estado</th></tr></thead>
+          <tbody id="dashboardTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Galería -->
+    <section id="section-galeria" style="display:none;">
+      <div style="margin-bottom:24px;">
+        <div class="upload-area" id="uploadArea">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Arrastra y suelta imágenes aquí o haz clic para seleccionar</p>
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;">Puedes seleccionar múltiples imágenes a la vez</p>
+          <input type="file" id="fileInput" multiple accept="image/*" style="display:none;">
+        </div>
+        <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+          <select class="form-control" id="galleryUserSelect" style="max-width:200px;">
+            <option value="all">Todos los usuarios</option>
+          </select>
+          <button class="btn btn-primary btn-sm" id="assignToUserBtn"><i class="fas fa-user-check"></i> Asignar a usuario</button>
+          <button class="btn btn-secondary btn-sm" id="addWatermarkBtn"><i class="fas fa-water"></i> Aplicar marca de agua</button>
+        </div>
+      </div>
+      <div class="gallery-grid-user" id="adminGalleryGrid">
+        <p style="color:var(--text-muted);">Sube imágenes para verlas aquí</p>
+      </div>
+    </section>
+
+    <!-- Reservas -->
+    <section id="section-reservas" style="display:none;">
+      <div class="report-filters">
+        <input type="date" class="form-control" id="reservasFilterDate" style="max-width:200px;">
+        <select class="form-control" id="reservasFilterStatus" style="max-width:150px;">
+          <option value="all">Todos</option><option value="confirmada">Confirmada</option><option value="pendiente">Pendiente</option><option value="cancelada">Cancelada</option>
+        </select>
+        <button class="btn btn-primary btn-sm" id="filterReservasBtn"><i class="fas fa-search"></i> Filtrar</button>
+      </div>
+      <div style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
+        <h3 style="margin-bottom:16px;">Todas las Reservas</h3>
+        <table class="admin-table">
+          <thead><tr><th>Cliente</th><th>Servicio</th><th>Fecha</th><th>Hora</th><th>Total</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody id="reservasTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Reportes -->
+    <section id="section-reportes" style="display:none;">
+      <div class="report-filters">
+        <select class="form-control" id="reportMonth" style="max-width:150px;">
+          <option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option>
+          <option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option>
+        </select>
+        <select class="form-control" id="reportYear" style="max-width:120px;">
+          <option value="2025">2025</option><option value="2026" selected>2026</option><option value="2027">2027</option>
+        </select>
+        <button class="btn btn-primary btn-sm" id="generateReportBtn"><i class="fas fa-file-export"></i> Generar Reporte</button>
+        <button class="btn btn-secondary btn-sm" id="exportReportBtn"><i class="fas fa-download"></i> Exportar</button>
+      </div>
+      <div class="admin-grid" id="reportSummary">
+        <div class="admin-card"><h3>Total Ventas</h3><div class="value" id="reportTotalSales">$0</div></div>
+        <div class="admin-card"><h3>N° Reservas</h3><div class="value" id="reportTotalBookings">0</div></div>
+        <div class="admin-card"><h3>Servicio más vendido</h3><div class="value" id="reportTopService" style="font-size:1.2rem;">-</div></div>
+        <div class="admin-card"><h3>Horas ocupadas</h3><div class="value" id="reportHoursUsed" style="font-size:1.2rem;">0</div></div>
+      </div>
+      <div style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);margin-top:20px;">
+        <h3 style="margin-bottom:16px;">Detalle de Ventas</h3>
+        <table class="admin-table">
+          <thead><tr><th>Fecha</th><th>Cliente</th><th>Servicio</th><th>Monto</th><th>Método Pago</th></tr></thead>
+          <tbody id="reportTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Usuarios -->
+    <section id="section-usuarios" style="display:none;">
+      <div style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);">
+        <h3 style="margin-bottom:16px;">Usuarios Registrados</h3>
+        <table class="admin-table">
+          <thead><tr><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Registro</th><th>Acciones</th></tr></thead>
+          <tbody id="usersTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ======================== ADMIN STATE ======================== */
+const CONFIG = {
+  whatsapp: '+56976295343',
+  email: 'almaoutdoorchile@gmail.com',
+  adminEmail: 'almaoutdoorchile@gmail.com',
+  adminPass: '123456'
+};
+
+const SERVICES = [
+  { id: 1, name: 'Vuelo Individual', price: 65000 },
+  { id: 2, name: 'Vuelo x 2', price: 119980 },
+  { id: 3, name: 'Fotos GoPro 360', price: 20000 },
+  { id: 4, name: 'Curso Piloto Parapente', price: 1500000 }
+];
+
+let adminState = {
+  users: JSON.parse(localStorage.getItem('almaoutdoor_users') || '[]'),
+  bookings: (function() { try { const s = JSON.parse(localStorage.getItem('almaoutdoor_state') || '{}'); return s.bookings || {}; } catch(e) { return {}; } })(),
+  sales: JSON.parse(localStorage.getItem('almaoutdoor_sales') || '[]'),
+  gallery: JSON.parse(localStorage.getItem('almaoutdoor_gallery') || '[]'),
+  uploadedImages: []
+};
+
+function formatCurrency(n) { return '$' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
+/* Check auth */
+(function() {
+  const saved = localStorage.getItem('almaoutdoor_state');
+  if (saved) {
+    const st = JSON.parse(saved);
+    if (!st.user || st.user.role !== 'admin') {
+      window.location.href = 'index.html';
+    }
+  } else {
+    window.location.href = 'index.html';
+  }
+})();
+
+/* Navigation */
+document.querySelectorAll('.admin-nav a[data-section]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelectorAll('.admin-nav a').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.admin-main section[id^="section-"]').forEach(s => s.style.display = 'none');
+    document.getElementById('section-' + this.dataset.section).style.display = 'block';
+    document.getElementById('adminPageTitle').textContent = this.textContent.trim();
+  });
+});
+
+/* Theme */
+(function() {
+  const saved = localStorage.getItem('almaoutdoor_theme');
+  const html = document.documentElement;
+  if (saved) html.dataset.theme = saved;
+  document.getElementById('themeToggleAdmin').addEventListener('click', () => {
+    const isDark = html.dataset.theme === 'dark';
+    html.dataset.theme = isDark ? 'light' : 'dark';
+    document.getElementById('themeToggleAdmin').innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    localStorage.setItem('almaoutdoor_theme', html.dataset.theme);
+  });
+  document.getElementById('themeToggleAdmin').innerHTML = html.dataset.theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+})();
+
+/* Logout */
+document.getElementById('adminLogout').addEventListener('click', function(e) {
+  e.preventDefault();
+  const saved = JSON.parse(localStorage.getItem('almaoutdoor_state') || '{}');
+  saved.user = null;
+  localStorage.setItem('almaoutdoor_state', JSON.stringify(saved));
+  window.location.href = 'index.html';
+});
+
+/* Dashboard */
+function renderDashboard() {
+  const sales = adminState.sales;
+  const total = sales.reduce((a, s) => a + s.total, 0);
+  document.getElementById('totalSales').textContent = formatCurrency(total);
+
+  const today = new Date().toISOString().split('T')[0];
+  const todayBookings = sales.filter(s => s.date === today);
+  document.getElementById('todayBookings').textContent = todayBookings.length;
+
+  document.getElementById('totalUsers').textContent = adminState.users.length;
+
+  const thisMonth = new Date().getMonth();
+  const thisYear = new Date().getFullYear();
+  const monthly = sales.filter(s => {
+    const d = new Date(s.date);
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+  });
+  document.getElementById('monthlyIncome').textContent = formatCurrency(monthly.reduce((a, s) => a + s.total, 0));
+
+  const tbody = document.getElementById('dashboardTableBody');
+  const recent = sales.slice(-10).reverse();
+  tbody.innerHTML = recent.map(s => `
+    <tr>
+      <td>${s.client}</td>
+      <td>${s.services}</td>
+      <td>${s.date}</td>
+      <td>${s.time || '-'}</td>
+      <td>${formatCurrency(s.total)}</td>
+      <td><span class="avail-badge available">Confirmada</span></td>
+    </tr>
+  `).join('');
+}
+
+/* Gallery upload */
+document.getElementById('uploadArea').addEventListener('click', () => {
+  document.getElementById('fileInput').click();
+});
+document.getElementById('uploadArea').addEventListener('dragover', (e) => {
+  e.preventDefault();
+  document.getElementById('uploadArea').style.borderColor = 'var(--primary)';
+});
+document.getElementById('uploadArea').addEventListener('dragleave', () => {
+  document.getElementById('uploadArea').style.borderColor = '';
+});
+document.getElementById('uploadArea').addEventListener('drop', (e) => {
+  e.preventDefault();
+  document.getElementById('uploadArea').style.borderColor = '';
+  handleFiles(e.dataTransfer.files);
+});
+document.getElementById('fileInput').addEventListener('change', function() {
+  handleFiles(this.files);
+});
+
+function handleFiles(files) {
+  const grid = document.getElementById('adminGalleryGrid');
+  Array.from(files).forEach(file => {
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const imgData = { id: Date.now() + '_' + Math.random().toString(36).substr(2, 5), src: e.target.result, name: file.name, userId: 'all', watermarked: true };
+      adminState.gallery.push(imgData);
+      localStorage.setItem('almaoutdoor_gallery', JSON.stringify(adminState.gallery));
+      renderAdminGallery();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderAdminGallery() {
+  const grid = document.getElementById('adminGalleryGrid');
+  if (adminState.gallery.length === 0) {
+    grid.innerHTML = '<p style="color:var(--text-muted);">Sube imágenes para verlas aquí</p>';
+    return;
+  }
+  grid.innerHTML = adminState.gallery.map((img, i) => `
+    <div class="gallery-user-item watermarked" style="position:relative;">
+      <img src="${img.src}" alt="${img.name}" loading="lazy">
+      <div class="watermark-overlay"><img src="img/logo/Logo_AlmaOutdoor2.png" alt="wm"></div>
+      <div style="position:absolute;top:8px;right:8px;display:flex;gap:4px;">
+        <button class="btn btn-primary btn-sm" style="padding:4px 8px;font-size:0.75rem;" onclick="assignImage(${i})"><i class="fas fa-user-tag"></i></button>
+        <button class="btn btn-secondary btn-sm" style="padding:4px 8px;font-size:0.75rem;background:#ef4444;color:#fff;" onclick="deleteImage(${i})"><i class="fas fa-trash"></i></button>
+      </div>
+      <div style="position:absolute;bottom:8px;left:8px;font-size:0.75rem;color:rgba(255,255,255,0.8);background:rgba(0,0,0,0.5);padding:2px 8px;border-radius:4px;">
+        Usuario: ${img.userId || 'todos'}
+      </div>
+    </div>
+  `).join('');
+}
+
+function assignImage(index) {
+  const userId = document.getElementById('galleryUserSelect').value;
+  adminState.gallery[index].userId = userId;
+  localStorage.setItem('almaoutdoor_gallery', JSON.stringify(adminState.gallery));
+  renderAdminGallery();
+  showToast('Imagen asignada a ' + (userId === 'all' ? 'todos' : userId), 'success');
+}
+
+function deleteImage(index) {
+  adminState.gallery.splice(index, 1);
+  localStorage.setItem('almaoutdoor_gallery', JSON.stringify(adminState.gallery));
+  renderAdminGallery();
+}
+
+/* Users select for gallery */
+function renderUserSelect() {
+  const select = document.getElementById('galleryUserSelect');
+  select.innerHTML = '<option value="all">Todos los usuarios</option>';
+  adminState.users.forEach(u => {
+    select.innerHTML += '<option value="' + u.email + '">' + u.name + ' (' + u.email + ')</option>';
+  });
+}
+
+/* Reservas */
+function renderReservas() {
+  const tbody = document.getElementById('reservasTableBody');
+  const sales = adminState.sales;
+  if (sales.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted);">No hay reservas registradas</td></tr>';
+    return;
+  }
+  tbody.innerHTML = sales.map((s, i) => `
+    <tr>
+      <td>${s.client}</td>
+      <td>${s.services}</td>
+      <td>${s.date}</td>
+      <td>${s.time || '-'}</td>
+      <td>${formatCurrency(s.total)}</td>
+      <td><span class="avail-badge available">Confirmada</span></td>
+      <td>
+        <button class="btn btn-primary btn-sm" style="padding:4px 8px;font-size:0.75rem;" onclick="viewReserva(${i})"><i class="fas fa-eye"></i></button>
+        <button class="btn btn-secondary btn-sm" style="padding:4px 8px;font-size:0.75rem;" onclick="cancelReserva(${i})"><i class="fas fa-times"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function viewReserva(i) {
+  const s = adminState.sales[i];
+  showToast('Reserva de ' + s.client + ' por ' + formatCurrency(s.total), 'info');
+}
+
+function cancelReserva(i) {
+  if (!confirm('¿Cancelar esta reserva?')) return;
+  adminState.sales.splice(i, 1);
+  localStorage.setItem('almaoutdoor_sales', JSON.stringify(adminState.sales));
+  renderDashboard();
+  renderReservas();
+  showToast('Reserva cancelada', 'error');
+}
+
+/* Reportes */
+function renderReportes() {
+  const sales = adminState.sales;
+  const total = sales.reduce((a, s) => a + s.total, 0);
+  document.getElementById('reportTotalSales').textContent = formatCurrency(total);
+  document.getElementById('reportTotalBookings').textContent = sales.length;
+
+  const serviceCount = {};
+  sales.forEach(s => {
+    s.services.split(', ').forEach(serv => {
+      serviceCount[serv] = (serviceCount[serv] || 0) + 1;
+    });
+  });
+  let topService = '-';
+  let topCount = 0;
+  Object.entries(serviceCount).forEach(([k, v]) => {
+    if (v > topCount) { topService = k; topCount = v; }
+  });
+  document.getElementById('reportTopService').textContent = topService;
+
+  const hoursUsed = sales.filter(s => s.time).length;
+  document.getElementById('reportHoursUsed').textContent = hoursUsed + ' hrs';
+
+  const tbody = document.getElementById('reportTableBody');
+  tbody.innerHTML = sales.map(s => `
+    <tr>
+      <td>${s.date}</td>
+      <td>${s.client}</td>
+      <td>${s.services}</td>
+      <td>${formatCurrency(s.total)}</td>
+      <td>${s.method || 'Flow'}</td>
+    </tr>
+  `).join('');
+}
+
+/* Usuarios */
+function renderUsuarios() {
+  const tbody = document.getElementById('usersTableBody');
+  if (adminState.users.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted);">No hay usuarios registrados</td></tr>';
+    return;
+  }
+  tbody.innerHTML = adminState.users.map((u, i) => `
+    <tr>
+      <td>${u.name}</td>
+      <td>${u.email}</td>
+      <td>${u.phone || '-'}</td>
+      <td>${new Date().toLocaleDateString()}</td>
+      <td>
+        <button class="btn btn-secondary btn-sm" style="padding:4px 8px;font-size:0.75rem;" onclick="resetUserCode(${i})"><i class="fas fa-key"></i> Reset código</button>
+        <button class="btn btn-secondary btn-sm" style="padding:4px 8px;font-size:0.75rem;background:#ef4444;color:#fff;" onclick="deleteUser(${i})"><i class="fas fa-user-minus"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function resetUserCode(i) {
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  adminState.users[i].code = code;
+  localStorage.setItem('almaoutdoor_users', JSON.stringify(adminState.users));
+  showToast('Código restablecido para ' + adminState.users[i].name + ': ' + code, 'success');
+}
+
+function deleteUser(i) {
+  if (!confirm('¿Eliminar usuario ' + adminState.users[i].name + '?')) return;
+  adminState.users.splice(i, 1);
+  localStorage.setItem('almaoutdoor_users', JSON.stringify(adminState.users));
+  renderUsuarios();
+  renderUserSelect();
+}
+
+/* Toast */
+function showToast(msg, type) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+/* Init */
+document.querySelector('.admin-nav a[data-section="dashboard"]').click();
+renderDashboard();
+renderAdminGallery();
+renderUserSelect();
+renderReservas();
+renderReportes();
+renderUsuarios();
+</script>
+</body>
+</html>
