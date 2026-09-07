@@ -137,12 +137,12 @@ function initHeroSlideshow() {
 }
 
 /* ======================== SERVICES ======================== */
-function renderServices() {
+function renderServices(forceVisible) {
   const grid = document.getElementById('servicesGrid');
   grid.innerHTML = SERVICES.map(s => {
     const inCart = state.cart.find(c => c.id === s.id);
     return `
-      <div class="service-card reveal">
+      <div class="service-card reveal${forceVisible ? ' visible' : ''}">
         <div class="service-card-image">
           <img src="${getImagePath(s.image)}" alt="${s.name}" loading="lazy">
           <div class="watermark-overlay"><img src="img/logo/Logo_AlmaOutdoor2.png" alt="AlmaOutdoor"></div>
@@ -165,6 +165,8 @@ function renderServices() {
 
 /* ======================== GALLERY ======================== */
 function initGallery() {
+  const grid = document.getElementById('galleryGrid');
+  if (!grid) return;
   const knownImages = [
     'GS010036_1765600136075.jpg', 'GS020042_1765680608780.jpg', 'GS010044_1765714794127.jpg', 'GS019998_1765250449439.jpg', 'GS020035_1765401348906.jpg',
     'GS020044_1765714963381.jpg', 'GS010044_1765714834902.jpg', 'GS010036_1765600175864.jpg', '945156C2-827F-4027-A170-1C4210C2A3C9.jpeg',
@@ -178,7 +180,6 @@ function initGallery() {
     'www.jpg', 'Snapshot_202512338_151210.jpg', 'Snapshot_202512338_151208.jpg'
   ];
   state.galleryImages = knownImages;
-  const grid = document.getElementById('galleryGrid');
   grid.innerHTML = knownImages.slice(0, GALLERY_BATCH_SIZE).map((img, i) => `
     <div class="gallery-item reveal watermarked" data-index="${i}" style="position:relative;">
       <img src="${getImagePath(img)}" alt="Vuelo parapente" loading="lazy">
@@ -193,6 +194,7 @@ function openLightbox(index) {
   state.lightboxIndex = index;
   const el = document.getElementById('lightbox');
   const content = document.getElementById('lightboxContent');
+  if (!el || !content || !state.galleryImages || !state.galleryImages[index]) return;
   content.innerHTML = '<img src="' + getImagePath(state.galleryImages[index]) + '" alt="Galería">';
   el.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -758,6 +760,116 @@ function initReveal() {
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 }
 
+/* ======================== STARS GENERATOR ======================== */
+function initStars() {
+  const container = document.getElementById('starsContainer');
+  if (!container) return;
+
+  const isDark = document.documentElement.dataset.theme === 'dark';
+  const numStars = isDark ? 220 : 40;
+  container.innerHTML = '';
+
+  for (let i = 0; i < numStars; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = isDark ? (Math.random() * 2.5 + 0.8) : (Math.random() * 1.5 + 0.5);
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 70 + '%';
+
+    if (isDark) {
+      // En modo nocturno: estrellas con movimiento. Mezcla de titileo y deriva.
+      const mode = i % 3; // 0=titileo, 1=deriva, 2=titileo
+      if (mode === 1) {
+        star.classList.add('drift');
+        star.style.setProperty('--driftdur', (6 + Math.random() * 8) + 's');
+      } else {
+        star.classList.add('twinkle');
+      }
+      star.style.setProperty('--dur', (2.5 + Math.random() * 4) + 's');
+      star.style.setProperty('--delay', (Math.random() * 6) + 's');
+      star.style.setProperty('--base-opacity', (0.35 + Math.random() * 0.65));
+      if (mode === 2) {
+        star.style.boxShadow = '0 0 3px 1px rgba(255,255,255,0.4)';
+      }
+    } else {
+      star.style.opacity = 0.4;
+      star.style.animation = 'twinkle 4s ease-in-out infinite';
+      star.style.setProperty('--dur', '4s');
+      star.style.setProperty('--delay', (Math.random() * 4) + 's');
+    }
+
+    container.appendChild(star);
+  }
+}
+
+/* ======================== SHOOTING STARS ======================== */
+function initShootingStars() {
+  const container = document.getElementById('shootingStars');
+  if (!container) return;
+
+  const spawn = () => {
+    if (document.documentElement.dataset.theme !== 'dark') {
+      setTimeout(spawn, 3000);
+      return;
+    }
+    const s = document.createElement('div');
+    s.className = 'shooting-star';
+    s.style.top = Math.random() * 30 + '%';
+    s.style.left = (10 + Math.random() * 60) + '%';
+    s.style.animationDuration = (0.8 + Math.random() * 1.2) + 's';
+    container.appendChild(s);
+    setTimeout(() => s.remove(), 2000);
+    setTimeout(spawn, 4000 + Math.random() * 8000);
+  };
+  setTimeout(spawn, 3000);
+}
+
+/* ======================== CLOUDS GENERATOR ======================== */
+function initClouds() {
+  const layer = document.getElementById('cloudsLayer');
+  if (!layer) return;
+
+  const createCloud = (delay) => {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    const size = 40 + Math.random() * 60;
+    cloud.style.width = size + 'px';
+    cloud.style.height = size * 0.6 + 'px';
+    cloud.style.top = Math.random() * 70 + '%';
+    cloud.style.opacity = 0.3 + Math.random() * 0.4;
+    cloud.style.setProperty('--speed', (40 + Math.random() * 60) + 's');
+    cloud.style.animationDelay = '-' + (delay) + 's';
+    layer.appendChild(cloud);
+    setTimeout(() => cloud.remove(), 40000);
+  };
+
+  for (let i = 0; i < 8; i++) {
+    createCloud(Math.random() * 30);
+  }
+  setInterval(() => createCloud(Math.random() * 30), 20000);
+}
+
+/* ======================== HEADER HEIGHT TIMER (for anchor offsets) ======================== */
+function initScrollSpy() {
+  const sections = document.querySelectorAll('section[id], section[style]');
+  const navLinks = document.querySelectorAll('.nav a');
+  const handle = () => {
+    const scroll = window.pageYOffset + 150;
+    let currentId = '';
+    document.querySelectorAll('section[id]').forEach(s => {
+      if (scroll >= s.offsetTop) currentId = s.id;
+    });
+    navLinks.forEach(a => {
+      const href = a.getAttribute('href');
+      a.classList.toggle('active', href === '#' + currentId);
+    });
+  };
+  window.addEventListener('scroll', handle);
+  handle();
+}
+
 /* ======================== EVENT BINDING ======================== */
 function bindEvents() {
   // Hamburger
@@ -809,7 +921,7 @@ function bindEvents() {
       renderCart();
       saveState();
       showToast('Agregado al carrito', 'success');
-      renderServices();
+      renderServices(true);
     }
 
     // Cart remove
@@ -883,20 +995,34 @@ function bindEvents() {
   });
 
   // Lightbox
-  document.getElementById('lbPrev').addEventListener('click', () => {
-    state.lightboxIndex = (state.lightboxIndex - 1 + state.galleryImages.length) % state.galleryImages.length;
-    document.getElementById('lightboxContent').innerHTML = '<img src="' + getImagePath(state.galleryImages[state.lightboxIndex]) + '" alt="Galería">';
-  });
-  document.getElementById('lbNext').addEventListener('click', () => {
-    state.lightboxIndex = (state.lightboxIndex + 1) % state.galleryImages.length;
-    document.getElementById('lightboxContent').innerHTML = '<img src="' + getImagePath(state.galleryImages[state.lightboxIndex]) + '" alt="Galería">';
-  });
+  const lbPrev = document.getElementById('lbPrev');
+  if (lbPrev) {
+    lbPrev.addEventListener('click', () => {
+      if (!state.galleryImages || state.galleryImages.length === 0) return;
+      state.lightboxIndex = (state.lightboxIndex - 1 + state.galleryImages.length) % state.galleryImages.length;
+      const content = document.getElementById('lightboxContent');
+      if (content) content.innerHTML = '<img src="' + getImagePath(state.galleryImages[state.lightboxIndex]) + '" alt="Galería">';
+    });
+  }
+
+  const lbNext = document.getElementById('lbNext');
+  if (lbNext) {
+    lbNext.addEventListener('click', () => {
+      if (!state.galleryImages || state.galleryImages.length === 0) return;
+      state.lightboxIndex = (state.lightboxIndex + 1) % state.galleryImages.length;
+      const content = document.getElementById('lightboxContent');
+      if (content) content.innerHTML = '<img src="' + getImagePath(state.galleryImages[state.lightboxIndex]) + '" alt="Galería">';
+    });
+  }
 
   // Keyboard navigation for lightbox
   document.addEventListener('keydown', function (e) {
-    if (document.getElementById('lightbox').classList.contains('open')) {
-      if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
-      if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
+    const lb = document.getElementById('lightbox');
+    if (lb && lb.classList.contains('open')) {
+      const prev = document.getElementById('lbPrev');
+      const next = document.getElementById('lbNext');
+      if (e.key === 'ArrowLeft' && prev) prev.click();
+      if (e.key === 'ArrowRight' && next) next.click();
       if (e.key === 'Escape') closeModal('lightbox');
     }
   });
@@ -953,7 +1079,15 @@ function init() {
   renderCart();
   bindEvents();
   initReveal();
+  initStars();
+  initShootingStars();
+  initClouds();
+  initScrollSpy();
   initAuth();
+
+  // Refresh stars when theme changes (handled in initTheme click via reload)
+  // Rebuild stars after a short delay in case fonts/layout settle
+  setTimeout(initStars, 200);
 
   // Start chat
   setTimeout(() => {
