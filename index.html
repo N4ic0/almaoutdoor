@@ -26,9 +26,11 @@
   <!-- Mountains silhouette -->
   <div class="mountains-layer" id="mountainsLayer">
     <svg class="mountains-svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-      <path class="mountain-far" d="M0,320 L0,220 Q120,120 240,180 Q360,60 480,160 Q600,40 720,140 Q840,20 960,120 Q1080,60 1200,160 Q1320,80 1440,140 L1440,320 Z"/>
-      <path class="mountain-mid" d="M0,320 L0,260 Q180,180 360,220 Q540,140 720,200 Q900,100 1080,180 Q1260,120 1440,200 L1440,320 Z"/>
-      <path class="mountain-near" d="M0,320 L0,280 Q240,220 480,260 Q720,180 960,240 Q1200,200 1440,260 L1440,320 Z"/>
+      <path class="mountain-far"
+        d="M0,320 L0,220 Q120,120 240,180 Q360,60 480,160 Q600,40 720,140 Q840,20 960,120 Q1080,60 1200,160 Q1320,80 1440,140 L1440,320 Z" />
+      <path class="mountain-mid"
+        d="M0,320 L0,260 Q180,180 360,220 Q540,140 720,200 Q900,100 1080,180 Q1260,120 1440,200 L1440,320 Z" />
+      <path class="mountain-near" d="M0,320 L0,280 Q240,220 480,260 Q720,180 960,240 Q1200,200 1440,260 L1440,320 Z" />
     </svg>
   </div>
 
@@ -46,7 +48,7 @@
         <a href="#inicio">Inicio</a>
         <a href="#servicios">Servicios</a>
         <a href="#reservas">Reservas</a>
-        <a href="#nosotros">Nosotros</a>
+        <a href="nosotros.html">Nosotros</a>
         <a href="#contacto">Contacto</a>
       </nav>
       <div class="header-actions">
@@ -77,10 +79,10 @@
         <a href="#reservas" class="btn btn-outline"><i class="fas fa-calendar-check"></i> Reservar Ahora</a>
       </div>
     </div>
-    <div class="hero-scroll">
+    <a href="#servicios" class="hero-scroll" aria-label="Ir a servicios">
       <span>Descubre más</span>
       <i class="fas fa-chevron-down"></i>
-    </div>
+    </a>
   </section>
 
   <!-- Services -->
@@ -100,7 +102,7 @@
       <p class="section-subtitle reveal">Selecciona la fecha y hora para tu aventura. Horarios disponibles según
         temporada.</p>
       <div class="booking-grid">
-        <div>
+        <div class="booking-left">
           <div class="calendar-container reveal">
             <div class="calendar-header">
               <h3 id="calendarMonthYear"></h3>
@@ -114,14 +116,14 @@
             </div>
             <div class="calendar-days" id="calendarDays"></div>
           </div>
-        </div>
-        <div>
           <div class="time-slots reveal" id="timeSlotsContainer">
             <h3><i class="fas fa-clock"></i> Horarios Disponibles</h3>
             <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:16px;">Selecciona una fecha para ver los
               horarios</p>
             <div class="time-slots-grid" id="timeSlotsGrid"></div>
           </div>
+        </div>
+        <div class="booking-right">
           <div class="booking-summary reveal">
             <h3><i class="fas fa-file-invoice"></i> Resumen de Reserva</h3>
             <div id="bookingSummaryItems">
@@ -137,107 +139,8 @@
     </div>
   </section>
 
-  <!-- About -->
-  <section class="section" id="nosotros">
-    <div class="container">
-      <h2 class="section-title reveal">Nuestro Equipo</h2>
-      <p class="section-subtitle reveal">
-        Somos AlmaOutdoor Chile, un equipo de apasionados del parapente dedicados a brindarte experiencias inolvidables
-        en los cielos del Cajón del Maipo. Con instructores certificados, equipos de última generación y un profundo
-        compromiso con tu seguridad y el ecoturismo.
-      </p>
-      <div class="team-grid reveal" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:40px;">
-
-        <div class="team-card">
-          <div class="team-card-image">
-            <img src="img/nosotros/AldoGalaz/AldoGalaz.JPG" alt="Aldo Galaz" loading="lazy">
-          </div>
-          <div class="team-card-body">
-            <h3>Aldo Galaz</h3>
-            <div class="team-role">Instructor de Parapente · Licencia N.º 1430</div>
-            <p class="team-desc">Instructor de parapente y uno de los pilotos más apasionados por el vuelo libre del equipo. Destaca por su experiencia, profesionalismo y entusiasmo. Su especial interés por los vuelos acrobáticos le permite mantener los más altos estándares de seguridad.</p>
-            <div class="team-specialty"><strong>Especialidad:</strong> instrucción de parapente, vuelos acrobáticos y vuelos biplaza.</div>
-          </div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-card-image">
-            <img src="img/nosotros/DiegoMartinez/DiegoMartinez.JPG" alt="Diego Martínez" loading="lazy">
-          </div>
-          <div class="team-card-body">
-            <h3>Diego Martínez</h3>
-            <div class="team-role">Instructor de Parapente · Piloto de Aviación · Adm. en Ecoturismo · Licencia N.º 1578</div>
-            <p class="team-desc">Con amplia experiencia aeronáutica y turística, es una pieza fundamental del equipo. Destaca por su capacidad para crear proyectos de turismo aventura, aportando innovación, liderazgo y una visión orientada a la excelencia.</p>
-            <div class="team-specialty"><strong>Especialidad:</strong> instrucción de parapente, vuelos biplaza, gestión de proyectos y ecoturismo.</div>
-          </div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-card-image">
-            <img src="img/nosotros/JavierBobadillaRozas/JavierBobadilla.jpg" alt="Javier Bobadilla Rozas" loading="lazy">
-          </div>
-          <div class="team-card-body">
-            <h3>Javier Bobadilla Rozas</h3>
-            <div class="team-role">Piloto de Parapente · Adm. en Ecoturismo · Fundador de AlmaOutdoor Chile</div>
-            <p class="team-desc">Su pasión por la naturaleza, la aventura y el turismo sustentable lo llevó a crear AlmaOutdoor Chile. Ha impulsado su crecimiento como una de las empresas mejor valoradas para vivir el parapente en el Cajón del Maipo, ofreciendo actividades seguras, auténticas y memorables.</p>
-            <div class="team-specialty"><strong>Especialidad:</strong> gestión de turismo aventura, experiencia del cliente y promoción del ecoturismo.</div>
-          </div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-card-image">
-            <img src="img/nosotros/JavierMartinez/JavierMartinez.JPG" alt="Javier Martínez" loading="lazy">
-          </div>
-          <div class="team-card-body">
-            <h3>Javier Martínez</h3>
-            <div class="team-role">Instructor de Parapente · Licencia N.º 1480</div>
-            <p class="team-desc">Vuela desde los 11 años. Cuenta con una amplia trayectoria en el vuelo libre, destacando en vuelos de distancia, vuelos acrobáticos y modalidades de Hike &amp; Fly. Su profesionalismo y pasión entregan experiencias seguras, emocionantes e inolvidables.</p>
-            <div class="team-specialty"><strong>Especialidad:</strong> vuelos de distancia, vuelos acrobáticos, Hike &amp; Fly y formación de pilotos.</div>
-          </div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-card-image">
-            <img src="img/nosotros/JuanCarlosBobadilla/JuanCarlosBobadilla.JPG" alt="Juan Carlos Bobadilla" loading="lazy">
-          </div>
-          <div class="team-card-body">
-            <h3>Juan Carlos Bobadilla</h3>
-            <div class="team-role">Instructor de Parapente · Cofundador · Licencia N.º 1444</div>
-            <p class="team-desc">Instructor de parapente y cofundador de AlmaOutdoor Chile. Su profundo conocimiento técnico, compromiso con la seguridad y años de experiencia lo convierten en un referente de la comunidad. Su enfoque cercano da confianza a alumnos y pasajeros.</p>
-            <div class="team-specialty"><strong>Especialidad:</strong> instrucción de parapente, formación de pilotos y vuelos biplaza.</div>
-          </div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-card-image">
-            <img src="img/nosotros/JulioLabbe/JulioLabbe.JPG" alt="Julio Labbé" loading="lazy">
-          </div>
-          <div class="team-card-body">
-            <h3>Julio Labbé</h3>
-            <div class="team-role">Piloto Biplaza de Parapente · Licencia N.º 1583</div>
-            <p class="team-desc">Piloto biplaza apasionado por los deportes al aire libre y la aventura. Su especialidad es el Hike &amp; Fly, combinando el ascenso a montañas con el descenso volando. Su simpatía y energía positiva hacen cada vuelo memorable.</p>
-            <div class="team-specialty"><strong>Especialidad:</strong> vuelos biplaza, Hike &amp; Fly y experiencias de montaña.</div>
-          </div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-card-image">
-            <img src="img/nosotros/PamelaRozas/PamelaRozas.JPG" alt="Pamela Rozas" loading="lazy">
-          </div>
-          <div class="team-card-body">
-            <h3>Pamela Rozas</h3>
-            <div class="team-role">Coordinadora y Atención al Cliente</div>
-            <p class="team-desc">Encargada de coordinación y atención al cliente. Su dedicación, organización y cercanía permiten una atención personalizada desde el primer contacto hasta el día del vuelo, coordinando horarios y asegurando una experiencia fluida.</p>
-            <div class="team-specialty"><strong>Especialidad:</strong> atención al cliente, coordinación de reservas y gestión de experiencias turísticas.</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
   <!-- Testimonials -->
-  <section class="section" style="background:var(--bg-alt);">
+  <!-- <section class="section" style="background:var(--bg-alt);">
     <div class="container">
       <h2 class="section-title reveal">Lo que dicen nuestros aventureros</h2>
       <p class="section-subtitle reveal">La mejor experiencia de sus vidas, según quienes ya volaron con nosotros.</p>
@@ -295,7 +198,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- Contact -->
   <section class="section" id="contacto">
@@ -388,7 +291,7 @@
         <div>
           <h4>Enlaces</h4>
           <ul class="footer-links">
-            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
             <li><a href="#reservas">Reservas</a></li>
             <li><a href="#contacto">Contacto</a></li>
           </ul>

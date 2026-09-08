@@ -1,15 +1,15 @@
 :root {
-  --primary: #f97316;
-  --primary-dark: #ea580c;
-  --primary-light: #fb923c;
-  --secondary: #0ea5e9;
-  --accent: #06b6d4;
-  --bg: #f0f2f5;
-  --bg-alt: #e4e7eb;
+  --primary: #16a34a;
+  --primary-dark: #15803d;
+  --primary-light: #22c55e;
+  --secondary: #10b981;
+  --accent: #059669;
+  --bg: #f0fdf4;
+  --bg-alt: #dcfce7;
   --bg-card: #ffffff;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
   --radius: 12px;
@@ -17,22 +17,22 @@
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --overlay: rgba(0, 0, 0, 0.5);
-  --header-bg: rgba(240, 242, 245, 0.92);
-  --gradient-1: linear-gradient(135deg, #f97316, #0ea5e9);
+  --header-bg: rgba(255, 255, 255, 0.92);
+  --gradient-1: linear-gradient(135deg, #16a34a, #10b981);
   --gradient-2: linear-gradient(135deg, #0f172a, #1e293b);
   --watermark: url('../img/logo/Logo_AlmaOutdoor2.png');
 }
 
 [data-theme="dark"] {
-  --bg: #0f172a;
-  --bg-alt: #1e293b;
-  --bg-card: #1e293b;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --border: #334155;
+  --bg: #0a0f0d;
+  --bg-alt: #111916;
+  --bg-card: #152019;
+  --text: #f0fdf4;
+  --text-muted: #86efac;
+  --border: #1a3a2a;
   --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
-  --header-bg: rgba(15, 23, 42, 0.95);
+  --header-bg: rgba(10, 15, 13, 0.95);
   --overlay: rgba(0, 0, 0, 0.7);
 }
 
@@ -50,26 +50,24 @@ html {
 
 body {
   font-family: var(--font);
-  background: transparent;
+  background: var(--bg);
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
-  transition: color var(--transition);
+  transition: color var(--transition), background var(--transition);
 }
 
-/* Fixed sky background must render behind content but visible */
 html,
 body {
-  background: transparent;
+  background: var(--bg);
 }
 
-/* Contenido de la página por encima del cielo/atmósfera (z-index 0) */
-body > .header,
-body > .hero,
-body > .section,
-body > .footer {
+/* Contenido de la página */
+body>.header,
+body>.hero,
+body>.section,
+body>.footer {
   position: relative;
-  z-index: 1;
 }
 
 a {
@@ -95,14 +93,55 @@ img {
 }
 
 .section {
-  padding: 100px 0;
+  padding: 80px 0;
+  scroll-margin-top: 50px;
+  margin-top: 0.5rem;
+}
+
+#servicios {
+  scroll-margin-top: 0px;
+  padding: 30px 0 !important;
+}
+
+#servicios .section-title {
+  margin-bottom: 0.5rem;
+}
+
+#servicios .section-subtitle {
+  margin-bottom: 1rem;
+}
+
+#reservas {
+  scroll-margin-top: 0px;
+  padding: 50px 0 !important;
+}
+
+#reservas .section-title {
+  margin-bottom: 0.5rem;
+}
+
+#reservas .section-subtitle {
+  margin-bottom: 1rem;
+}
+
+#contacto {
+  scroll-margin-top: 0px;
+  padding: 30px 0 !important;
+}
+
+#contacto .section-title {
+  margin-bottom: 0.5rem;
+}
+
+#contacto .section-subtitle {
+  margin-bottom: 1rem;
 }
 
 .section-title {
   font-size: 2.5rem;
   font-weight: 800;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 3.5rem;
   background: var(--gradient-1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -114,7 +153,7 @@ img {
   color: var(--text-muted);
   font-size: 1.1rem;
   max-width: 600px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 3.5rem;
 }
 
 .btn {
@@ -152,7 +191,7 @@ img {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
+  box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3);
 }
 
 .btn-secondary {
@@ -367,12 +406,16 @@ img {
 
 /* Hero */
 .hero {
-  min-height: 100vh;
+  min-height: 90vh;
+  min-height: 90svh;
   display: flex;
   align-items: center;
   position: relative;
   overflow: hidden;
   background: var(--gradient-2);
+  scroll-margin-top: 0;
+  padding-top: 70px;
+  box-sizing: border-box;
 }
 
 /* En modo nocturno el carrusel principal sigue mostrando las imágenes del hero */
@@ -385,7 +428,7 @@ img {
 }
 
 [data-theme="dark"] .hero-slideshow .slide::after {
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.45));
+  background: linear-gradient(135deg, rgba(10, 15, 13, 0.7), rgba(10, 15, 13, 0.45));
 }
 
 .hero-slideshow {
@@ -415,20 +458,20 @@ img {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.4));
+  background: linear-gradient(135deg, rgba(10, 15, 13, 0.8), rgba(10, 15, 13, 0.4));
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 700px;
+  max-width: 800px;
   padding: 0 20px;
 }
 
 .hero-content h1 {
-  font-size: 4rem;
-  font-weight: 900;
-  line-height: 1.1;
+  font-size: clamp(2.3rem, 5vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.15;
   color: #fff;
   margin-bottom: 1.5rem;
   animation: fadeInUp 1s ease;
@@ -442,10 +485,10 @@ img {
 }
 
 .hero-content p {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 2rem;
-  line-height: 1.8;
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
   animation: fadeInUp 1s ease 0.2s backwards;
 }
 
@@ -458,7 +501,7 @@ img {
 
 .hero-scroll {
   position: absolute;
-  bottom: 40px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
@@ -466,16 +509,24 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
+  gap: 6px;
+  font-size: 0.8rem;
   animation: bounce 2s infinite;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 /* Services */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .service-card {
@@ -522,12 +573,12 @@ img {
 }
 
 .service-card-body {
-  padding: 20px;
+  padding: 12px 16px;
 }
 
 .service-card-body h3 {
   font-size: 1.2rem;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .service-card-body p {
@@ -538,9 +589,10 @@ img {
 
 .service-card-footer {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding-top: 16px;
+  gap: 12px;
+  padding-bottom: 5px;
   border-top: 1px solid var(--border);
 }
 
@@ -548,6 +600,7 @@ img {
   font-size: 1.4rem;
   font-weight: 800;
   color: var(--primary);
+  text-align: center;
 }
 
 
@@ -558,19 +611,29 @@ img {
 
 .booking-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
   align-items: start;
+}
+
+.booking-left {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.booking-right {
+  position: sticky;
+  top: 100px;
 }
 
 .calendar-container {
   background: var(--bg-card);
   border-radius: var(--radius);
-  padding: 24px;
+  padding: 20px;
   border: 1px solid var(--border);
-  width: 80%;
-  margin: 0 auto;
-  font-size: 0.8em;
+  font-size: 0.7em;
 }
 
 .calendar-container .calendar-day {
@@ -747,7 +810,6 @@ img {
   border-radius: var(--radius);
   padding: 24px;
   border: 1px solid var(--border);
-  margin-top: 20px;
 }
 
 .booking-summary h3 {
@@ -908,20 +970,20 @@ img {
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 20px;
 }
 
 .contact-info {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
 }
 
 .contact-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px;
+  gap: 12px;
+  padding: 12px;
   background: var(--bg-card);
   border-radius: var(--radius);
   border: 1px solid var(--border);
@@ -934,15 +996,15 @@ img {
 }
 
 .contact-item-icon {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--gradient-1);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1rem;
   flex-shrink: 0;
 }
 
@@ -959,12 +1021,12 @@ img {
 .contact-form {
   background: var(--bg-card);
   border-radius: var(--radius);
-  padding: 32px;
+  padding: 20px;
   border: 1px solid var(--border);
 }
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .form-group label {
@@ -1868,15 +1930,9 @@ select.form-control {
 }
 
 /* ======================== SKY & ATMOSPHERE ======================== */
-/* Las capas de atmósfera se dibujan por debajo del contenido (z-index 0)
-   pero por encima del fondo transparente del documento, de modo que las
-   estrellas/nubes/montañas siempre son visibles. */
+/* Deshabilitado: fondo animado removido a solicitud del cliente */
 .sky-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
+  display: none;
 }
 
 .sky-gradient {
@@ -1886,29 +1942,25 @@ select.form-control {
 }
 
 [data-theme="dark"] .sky-gradient {
-  background: linear-gradient(
-    180deg,
-    #020617 0%,
-    #0a0f2e 15%,
-    #0f1b4d 30%,
-    #162052 45%,
-    #1a2566 55%,
-    #0f172a 100%
-  );
+  background: linear-gradient(180deg,
+      #020617 0%,
+      #0a0f2e 15%,
+      #0f1b4d 30%,
+      #162052 45%,
+      #1a2566 55%,
+      #0f172a 100%);
 }
 
 [data-theme="light"] .sky-gradient {
-  background: linear-gradient(
-    180deg,
-    #0ea5e9 0%,
-    #38bdf8 15%,
-    #7dd3fc 30%,
-    #bae6fd 45%,
-    #e0f2fe 55%,
-    #f0f9ff 70%,
-    #fff7ed 85%,
-    #ffedd5 100%
-  );
+  background: linear-gradient(180deg,
+      #0ea5e9 0%,
+      #38bdf8 15%,
+      #7dd3fc 30%,
+      #bae6fd 45%,
+      #e0f2fe 55%,
+      #f0f9ff 70%,
+      #fff7ed 85%,
+      #ffedd5 100%);
 }
 
 .stars-container {
@@ -1943,15 +1995,19 @@ select.form-control {
     transform: translate(0, 0);
     opacity: 0;
   }
+
   10% {
     opacity: var(--base-opacity, 0.8);
   }
+
   50% {
     transform: translate(6px, 12px);
   }
+
   90% {
     opacity: var(--base-opacity, 0.8);
   }
+
   100% {
     transform: translate(-6px, 18px);
     opacity: 0;
@@ -1980,8 +2036,17 @@ select.form-control {
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: var(--base-opacity, 0.8); transform: scale(1); }
-  50% { opacity: 0.2; transform: scale(0.5); }
+
+  0%,
+  100% {
+    opacity: var(--base-opacity, 0.8);
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: scale(0.5);
+  }
 }
 
 @keyframes shootingStar {
@@ -1989,9 +2054,11 @@ select.form-control {
     opacity: 1;
     transform: translate(0, 0) rotate(-35deg);
   }
+
   70% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: translate(300px, 180px) rotate(-35deg);
@@ -2020,9 +2087,17 @@ select.form-control {
 }
 
 @keyframes auroraFlow {
-  0% { transform: translateX(-5%) skewX(-2deg); }
-  50% { transform: translateX(3%) skewX(1deg); }
-  100% { transform: translateX(-3%) skewX(-1deg); }
+  0% {
+    transform: translateX(-5%) skewX(-2deg);
+  }
+
+  50% {
+    transform: translateX(3%) skewX(1deg);
+  }
+
+  100% {
+    transform: translateX(-3%) skewX(-1deg);
+  }
 }
 
 /* Sun / Moon */
@@ -2053,25 +2128,34 @@ select.form-control {
 }
 
 @keyframes sunPulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 60px rgba(251, 191, 36, 0.4); }
-  50% { transform: scale(1.05); box-shadow: 0 0 80px rgba(251, 191, 36, 0.5); }
+
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 60px rgba(251, 191, 36, 0.4);
+  }
+
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 80px rgba(251, 191, 36, 0.5);
+  }
 }
 
 @keyframes moonGlow {
-  0%, 100% { box-shadow: 0 0 30px rgba(226, 232, 240, 0.3); }
-  50% { box-shadow: 0 0 50px rgba(226, 232, 240, 0.4); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 30px rgba(226, 232, 240, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 50px rgba(226, 232, 240, 0.4);
+  }
 }
 
 /* ======================== MOUNTAINS ======================== */
 .mountains-layer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 35vh;
-  z-index: 0;
-  pointer-events: none;
-  transition: opacity 1.5s ease;
+  display: none;
 }
 
 .mountains-svg {
@@ -2096,30 +2180,34 @@ select.form-control {
   transition: fill 1.5s ease;
 }
 
-[data-theme="light"] .mountain-far { fill: rgba(100, 116, 139, 0.25); }
-[data-theme="light"] .mountain-mid { fill: rgba(71, 85, 105, 0.35); }
-[data-theme="light"] .mountain-near { fill: rgba(51, 65, 85, 0.5); }
+[data-theme="light"] .mountain-far {
+  fill: rgba(100, 116, 139, 0.25);
+}
+
+[data-theme="light"] .mountain-mid {
+  fill: rgba(71, 85, 105, 0.35);
+}
+
+[data-theme="light"] .mountain-near {
+  fill: rgba(51, 65, 85, 0.5);
+}
 
 [data-theme="dark"] .mountain-far {
   fill: rgba(15, 23, 42, 0.5);
   filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.1));
 }
+
 [data-theme="dark"] .mountain-mid {
   fill: rgba(15, 23, 42, 0.7);
 }
+
 [data-theme="dark"] .mountain-near {
   fill: rgba(15, 23, 42, 0.92);
 }
 
 /* ======================== CLOUDS ======================== */
 .clouds-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity 1.5s ease;
+  display: none;
 }
 
 [data-theme="light"] .clouds-layer {
@@ -2157,102 +2245,107 @@ select.form-control {
 }
 
 @keyframes cloudFloat {
-  0% { transform: translateX(-200px); }
-  100% { transform: translateX(calc(100vw + 200px)); }
+  0% {
+    transform: translateX(-200px);
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 200px));
+  }
 }
 
 /* ======================== ENHANCED SECTION THEMES ======================== */
-/* Services section - golden hour feel */
+/* Services section */
 [data-theme="dark"] #servicios {
-  background: linear-gradient(180deg, transparent 0%, rgba(139, 92, 246, 0.05) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(22, 163, 74, 0.05) 50%, transparent 100%);
 }
 
 [data-theme="light"] #servicios {
-  background: linear-gradient(180deg, transparent 0%, rgba(14, 165, 233, 0.03) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(16, 185, 129, 0.03) 50%, transparent 100%);
 }
 
 /* Booking section */
 [data-theme="dark"] .booking-section {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.45), rgba(30, 27, 75, 0.12), rgba(15, 23, 42, 0.45));
+  background: linear-gradient(180deg, rgba(10, 15, 13, 0.45), rgba(21, 32, 25, 0.12), rgba(10, 15, 13, 0.45));
 }
 
 [data-theme="light"] .booking-section {
-  background: linear-gradient(180deg, rgba(224, 242, 254, 0.5), rgba(255, 247, 237, 0.5));
+  background: linear-gradient(180deg, rgba(243, 244, 246, 0.5), rgba(255, 255, 255, 0.5));
 }
 
 /* About section */
 [data-theme="dark"] #nosotros {
-  background: linear-gradient(180deg, transparent, rgba(88, 28, 135, 0.08), transparent);
+  background: linear-gradient(180deg, transparent, rgba(22, 163, 74, 0.08), transparent);
 }
 
 /* Testimonials section */
 [data-theme="dark"] [style*="background:var(--bg-alt)"] {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.4), rgba(30, 27, 75, 0.1), rgba(15, 23, 42, 0.4)) !important;
+  background: linear-gradient(180deg, rgba(10, 15, 13, 0.4), rgba(21, 32, 25, 0.1), rgba(10, 15, 13, 0.4)) !important;
 }
 
 /* Enhanced dark theme card glows */
 [data-theme="dark"] .service-card {
-  border-color: rgba(139, 92, 246, 0.15);
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+  border-color: rgba(22, 163, 74, 0.15);
+  background: linear-gradient(135deg, rgba(21, 32, 25, 0.8), rgba(10, 15, 13, 0.9));
 }
 
 [data-theme="dark"] .service-card:hover {
-  border-color: rgba(249, 115, 22, 0.4);
-  box-shadow: 0 8px 32px rgba(249, 115, 22, 0.15), 0 0 60px rgba(139, 92, 246, 0.05);
+  border-color: rgba(34, 197, 94, 0.4);
+  box-shadow: 0 8px 32px rgba(34, 197, 94, 0.15), 0 0 60px rgba(22, 163, 74, 0.05);
 }
 
 [data-theme="dark"] .contact-item {
-  border-color: rgba(139, 92, 246, 0.12);
+  border-color: rgba(22, 163, 74, 0.12);
 }
 
 [data-theme="dark"] .contact-item:hover {
-  border-color: rgba(249, 115, 22, 0.4);
-  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.1);
+  border-color: rgba(34, 197, 94, 0.4);
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.1);
 }
 
 [data-theme="dark"] .section-title {
-  background: linear-gradient(135deg, #f97316, #06b6d4, #a855f7);
+  background: linear-gradient(135deg, #22c55e, #10b981, #059669);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
 [data-theme="light"] .section-title {
-  background: linear-gradient(135deg, #ea580c, #0284c7);
+  background: linear-gradient(135deg, #15803d, #059669);
   -webkit-background-clip: text;
   background-clip: text;
 }
 
 /* Enhanced dark hero */
 [data-theme="dark"] .hero {
-  background: linear-gradient(135deg, #0f0a2e 0%, #1a0533 30%, #0f172a 60%, #0a1628 100%);
+  background: linear-gradient(135deg, #0a0f0d 0%, #0f1f16 30%, #0a0f0d 60%, #080d0b 100%);
 }
 
 [data-theme="dark"] .hero-content h1 {
-  text-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
+  text-shadow: 0 0 40px rgba(34, 197, 94, 0.3);
 }
 
 /* Adventure glow effects in dark mode */
 [data-theme="dark"] .hero-scroll {
-  color: rgba(168, 85, 247, 0.6);
+  color: rgba(34, 197, 94, 0.6);
 }
 
 [data-theme="dark"] .footer {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), #0a0a1a);
+  background: linear-gradient(180deg, rgba(10, 15, 13, 0.95), #050a08);
 }
 
 /* Star count badge for dark theme */
 [data-theme="dark"] .cart-count {
-  background: linear-gradient(135deg, #f97316, #a855f7);
+  background: linear-gradient(135deg, #16a34a, #059669);
 }
 
 [data-theme="dark"] .btn-primary {
-  background: linear-gradient(135deg, #f97316, #a855f7, #06b6d4);
+  background: linear-gradient(135deg, #16a34a, #10b981, #059669);
   background-size: 200% 200%;
   animation: gradientShift 4s ease infinite;
 }
 
 [data-theme="dark"] .contact-item-icon {
-  background: linear-gradient(135deg, #f97316, #a855f7);
+  background: linear-gradient(135deg, #16a34a, #10b981);
 }
 
 /* Parallax sections */
@@ -2385,6 +2478,14 @@ select.form-control {
 @media (max-width: 1024px) {
   .booking-grid {
     grid-template-columns: 1fr;
+  }
+
+  .booking-left {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-right {
+    position: static;
   }
 
   .about-grid {

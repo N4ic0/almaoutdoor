@@ -120,6 +120,7 @@ function closeModal(id) {
 /* ======================== HERO SLIDESHOW ======================== */
 function initHeroSlideshow() {
   const container = document.getElementById('heroSlideshow');
+  if (!container) return;
   const files = ['GS010036_1765600136075.jpg', 'GS020042_1765680608780.jpg', 'GS010044_1765714794127.jpg', 'GS019998_1765250449439.jpg', 'GS020035_1765401348906.jpg'];
   files.forEach((f, i) => {
     const div = document.createElement('div');
@@ -139,6 +140,7 @@ function initHeroSlideshow() {
 /* ======================== SERVICES ======================== */
 function renderServices(forceVisible) {
   const grid = document.getElementById('servicesGrid');
+  if (!grid) return;
   grid.innerHTML = SERVICES.map(s => {
     const inCart = state.cart.find(c => c.id === s.id);
     return `
@@ -202,8 +204,9 @@ function openLightbox(index) {
 
 /* ======================== CALENDAR ======================== */
 function renderCalendar() {
-  const { currentMonth: month, currentYear: year } = state;
   const title = document.getElementById('calendarMonthYear');
+  if (!title) return;
+  const { currentMonth: month, currentYear: year } = state;
   const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   title.textContent = months[month] + ' ' + year;
 
@@ -259,6 +262,7 @@ function selectDate(dateStr) {
 
 function renderTimeSlots() {
   const grid = document.getElementById('timeSlotsGrid');
+  if (!grid) return;
   grid.innerHTML = '';
   if (!state.selectedDate) {
     document.querySelector('#timeSlotsContainer h3').textContent = '\u{1F550} Horarios Disponibles';
@@ -289,6 +293,7 @@ function renderTimeSlots() {
 function updateBookingSummary() {
   const items = document.getElementById('bookingSummaryItems');
   const total = document.getElementById('bookingTotal');
+  if (!items || !total) return;
   let html = '';
   let t = 0;
 
@@ -319,6 +324,7 @@ function renderCart() {
   const items = document.getElementById('cartItems');
   const count = document.getElementById('cartCount');
   const total = document.getElementById('cartTotalAmount');
+  if (!items) return;
   let html = '';
   let t = 0;
 
@@ -530,97 +536,106 @@ function initAuth() {
     });
   });
 
-  document.getElementById('loginForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value.trim();
-    const code = document.getElementById('loginCode').value.trim();
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const code = document.getElementById('loginCode').value.trim();
 
-    if (email === CONFIG.adminEmail && code === CONFIG.adminPass) {
-      state.user = { email, role: 'admin', name: 'Administrador' };
-      saveState();
-      closeModal('authModal');
-      showToast('\u2705 Bienvenido Administrador', 'success');
-      window.location.href = 'admin.html';
-      return;
-    }
+      if (email === CONFIG.adminEmail && code === CONFIG.adminPass) {
+        state.user = { email, role: 'admin', name: 'Administrador' };
+        saveState();
+        closeModal('authModal');
+        showToast('\u2705 Bienvenido Administrador', 'success');
+        window.location.href = 'admin.html';
+        return;
+      }
 
-    const users = JSON.parse(localStorage.getItem('almaoutdoor_users') || '[]');
-    const user = users.find(u => u.email === email);
-    if (!user) {
-      showToast('Email no registrado. Solicita un código primero.', 'error');
-      return;
-    }
-    if (code === user.code) {
-      state.user = { email: user.email, role: 'user', name: user.name };
-      saveState();
-      closeModal('authModal');
-      showToast('\u2705 Bienvenido ' + user.name, 'success');
-      window.location.href = 'user.html';
-    } else {
-      showToast('Código incorrecto. Intenta nuevamente.', 'error');
-    }
-  });
+      const users = JSON.parse(localStorage.getItem('almaoutdoor_users') || '[]');
+      const user = users.find(u => u.email === email);
+      if (!user) {
+        showToast('Email no registrado. Solicita un código primero.', 'error');
+        return;
+      }
+      if (code === user.code) {
+        state.user = { email: user.email, role: 'user', name: user.name };
+        saveState();
+        closeModal('authModal');
+        showToast('\u2705 Bienvenido ' + user.name, 'success');
+        window.location.href = 'user.html';
+      } else {
+        showToast('Código incorrecto. Intenta nuevamente.', 'error');
+      }
+    });
+  }
 
-  document.getElementById('registerForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const inputs = this.querySelectorAll('input');
-    const name = inputs[0].value.trim() + ' ' + inputs[1].value.trim();
-    const email = inputs[2].value.trim();
-    const phone = inputs[3].value.trim();
+  const registerForm = document.getElementById('registerForm');
+  if (registerForm) {
+    registerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const inputs = this.querySelectorAll('input');
+      const name = inputs[0].value.trim() + ' ' + inputs[1].value.trim();
+      const email = inputs[2].value.trim();
+      const phone = inputs[3].value.trim();
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    const users = JSON.parse(localStorage.getItem('almaoutdoor_users') || '[]');
-    if (users.find(u => u.email === email)) {
-      showToast('Este email ya está registrado', 'error');
-      return;
-    }
-    users.push({ name, email, phone, code });
-    localStorage.setItem('almaoutdoor_users', JSON.stringify(users));
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      const users = JSON.parse(localStorage.getItem('almaoutdoor_users') || '[]');
+      if (users.find(u => u.email === email)) {
+        showToast('Este email ya está registrado', 'error');
+        return;
+      }
+      users.push({ name, email, phone, code });
+      localStorage.setItem('almaoutdoor_users', JSON.stringify(users));
 
-    const msg = encodeURIComponent('Tu código de acceso a AlmaOutdoor Chile es: ' + code + '\n\nIngresa con tu email: ' + email);
-    window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + msg, '_blank');
+      const msg = encodeURIComponent('Tu código de acceso a AlmaOutdoor Chile es: ' + code + '\n\nIngresa con tu email: ' + email);
+      window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + msg, '_blank');
 
-    const mailto = 'mailto:' + email + '?subject=' + encodeURIComponent('Código de Acceso - AlmaOutdoor Chile') + '&body=' + encodeURIComponent(
-      'Hola ' + name + ',\n\nTu código de acceso a AlmaOutdoor Chile es: ' + code + '\n\nIngresa con tu email: ' + email + '\n\n¡Gracias por registrarte!'
-    );
-    const ma = document.createElement('a');
-    ma.href = mailto;
-    ma.style.display = 'none';
-    document.body.appendChild(ma);
-    ma.click();
-    setTimeout(() => ma.remove(), 1000);
+      const mailto = 'mailto:' + email + '?subject=' + encodeURIComponent('Código de Acceso - AlmaOutdoor Chile') + '&body=' + encodeURIComponent(
+        'Hola ' + name + ',\n\nTu código de acceso a AlmaOutdoor Chile es: ' + code + '\n\nIngresa con tu email: ' + email + '\n\n¡Gracias por registrarte!'
+      );
+      const ma = document.createElement('a');
+      ma.href = mailto;
+      ma.style.display = 'none';
+      document.body.appendChild(ma);
+      ma.click();
+      setTimeout(() => ma.remove(), 1000);
 
-    showToast('Código enviado a tu correo y WhatsApp', 'success');
-    document.querySelector('[data-tab="login"]').click();
-    document.getElementById('loginEmail').value = email;
-  });
+      showToast('Código enviado a tu correo y WhatsApp', 'success');
+      document.querySelector('[data-tab="login"]').click();
+      document.getElementById('loginEmail').value = email;
+    });
+  }
 
-  document.getElementById('requestCodeLink').addEventListener('click', function (e) {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value.trim();
-    if (!email) { showToast('Ingresa tu email primero', 'error'); return; }
+  const requestCodeLink = document.getElementById('requestCodeLink');
+  if (requestCodeLink) {
+    requestCodeLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      if (!email) { showToast('Ingresa tu email primero', 'error'); return; }
 
-    const users = JSON.parse(localStorage.getItem('almaoutdoor_users') || '[]');
-    const user = users.find(u => u.email === email);
-    if (!user) { showToast('Email no registrado. Regístrate primero.', 'error'); return; }
+      const users = JSON.parse(localStorage.getItem('almaoutdoor_users') || '[]');
+      const user = users.find(u => u.email === email);
+      if (!user) { showToast('Email no registrado. Regístrate primero.', 'error'); return; }
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    user.code = code;
-    localStorage.setItem('almaoutdoor_users', JSON.stringify(users));
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      user.code = code;
+      localStorage.setItem('almaoutdoor_users', JSON.stringify(users));
 
-    const msg = encodeURIComponent('Tu nuevo código de acceso a AlmaOutdoor Chile es: ' + code);
-    window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + msg, '_blank');
+      const msg = encodeURIComponent('Tu nuevo código de acceso a AlmaOutdoor Chile es: ' + code);
+      window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + msg, '_blank');
 
-    const mailto = 'mailto:' + email + '?subject=' + encodeURIComponent('Nuevo Código de Acceso - AlmaOutdoor Chile') + '&body=' + encodeURIComponent('Tu nuevo código de acceso es: ' + code);
-    const ma = document.createElement('a');
-    ma.href = mailto;
-    ma.style.display = 'none';
-    document.body.appendChild(ma);
-    ma.click();
-    setTimeout(() => ma.remove(), 1000);
+      const mailto = 'mailto:' + email + '?subject=' + encodeURIComponent('Nuevo Código de Acceso - AlmaOutdoor Chile') + '&body=' + encodeURIComponent('Tu nuevo código de acceso es: ' + code);
+      const ma = document.createElement('a');
+      ma.href = mailto;
+      ma.style.display = 'none';
+      document.body.appendChild(ma);
+      ma.click();
+      setTimeout(() => ma.remove(), 1000);
 
-    showToast('Nuevo código enviado a tu correo y WhatsApp', 'success');
-  });
+      showToast('Nuevo código enviado a tu correo y WhatsApp', 'success');
+    });
+  }
 }
 
 /* ======================== WHATSAPP CHAT BOT ======================== */
@@ -662,6 +677,7 @@ function addChatMessage(text, type = 'bot') {
 
 function addChatOptions(options) {
   const msgs = document.getElementById('chatMessages');
+  if (!msgs) return;
   const div = document.createElement('div');
   div.className = 'chat-msg bot';
   div.style.background = 'transparent';
@@ -856,7 +872,7 @@ function initScrollSpy() {
   const sections = document.querySelectorAll('section[id], section[style]');
   const navLinks = document.querySelectorAll('.nav a');
   const handle = () => {
-    const scroll = window.pageYOffset + 150;
+    const scroll = window.pageYOffset + 100;
     let currentId = '';
     document.querySelectorAll('section[id]').forEach(s => {
       if (scroll >= s.offsetTop) currentId = s.id;
@@ -873,39 +889,55 @@ function initScrollSpy() {
 /* ======================== EVENT BINDING ======================== */
 function bindEvents() {
   // Hamburger
-  document.getElementById('hamburger').addEventListener('click', () => {
-    document.getElementById('nav').classList.toggle('open');
-  });
+  const hamburger = document.getElementById('hamburger');
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      document.getElementById('nav').classList.toggle('open');
+    });
+  }
 
   // Nav links - close mobile menu
   document.querySelectorAll('.nav a').forEach(a => {
     a.addEventListener('click', () => {
-      document.getElementById('nav').classList.remove('open');
+      const nav = document.getElementById('nav');
+      if (nav) nav.classList.remove('open');
     });
   });
 
   // Cart button
-  document.getElementById('cartBtn').addEventListener('click', () => {
-    renderCart();
-    openModal('cartModal');
-  });
+  const cartBtn = document.getElementById('cartBtn');
+  if (cartBtn) {
+    cartBtn.addEventListener('click', () => {
+      renderCart();
+      openModal('cartModal');
+    });
+  }
 
   // Login button
-  document.getElementById('loginBtn').addEventListener('click', () => {
-    openModal('authModal');
-  });
+  const loginBtn = document.getElementById('loginBtn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', () => {
+      openModal('authModal');
+    });
+  }
 
   // Calendar nav
-  document.getElementById('prevMonth').addEventListener('click', () => {
-    state.currentMonth--;
-    if (state.currentMonth < 0) { state.currentMonth = 11; state.currentYear--; }
-    renderCalendar();
-  });
-  document.getElementById('nextMonth').addEventListener('click', () => {
-    state.currentMonth++;
-    if (state.currentMonth > 11) { state.currentMonth = 0; state.currentYear++; }
-    renderCalendar();
-  });
+  const prevMonth = document.getElementById('prevMonth');
+  const nextMonth = document.getElementById('nextMonth');
+  if (prevMonth) {
+    prevMonth.addEventListener('click', () => {
+      state.currentMonth--;
+      if (state.currentMonth < 0) { state.currentMonth = 11; state.currentYear--; }
+      renderCalendar();
+    });
+  }
+  if (nextMonth) {
+    nextMonth.addEventListener('click', () => {
+      state.currentMonth++;
+      if (state.currentMonth > 11) { state.currentMonth = 0; state.currentYear++; }
+      renderCalendar();
+    });
+  }
 
   // Add to cart
   document.addEventListener('click', function (e) {
@@ -946,53 +978,84 @@ function bindEvents() {
   });
 
   // Cart checkout
-  document.getElementById('cartCheckoutBtn').addEventListener('click', () => {
-    if (state.cart.length === 0) { showToast('Agrega servicios al carrito', 'error'); return; }
-    closeModal('cartModal');
-    openCheckout();
-  });
+  const cartCheckoutBtn = document.getElementById('cartCheckoutBtn');
+  if (cartCheckoutBtn) {
+    cartCheckoutBtn.addEventListener('click', () => {
+      if (state.cart.length === 0) { showToast('Agrega servicios al carrito', 'error'); return; }
+      closeModal('cartModal');
+      openCheckout();
+    });
+  }
 
   // Booking checkout
-  document.getElementById('bookingCheckoutBtn').addEventListener('click', () => {
-    if (state.cart.length === 0) { showToast('Agrega servicios al carrito primero', 'error'); return; }
-    if (!state.selectedDate) { showToast('Selecciona una fecha', 'error'); return; }
-    if (!state.selectedTime) { showToast('Selecciona un horario', 'error'); return; }
-    openCheckout();
-  });
+  const bookingCheckoutBtn = document.getElementById('bookingCheckoutBtn');
+  if (bookingCheckoutBtn) {
+    bookingCheckoutBtn.addEventListener('click', () => {
+      if (state.cart.length === 0) { showToast('Agrega servicios al carrito primero', 'error'); return; }
+      if (!state.selectedDate) { showToast('Selecciona una fecha', 'error'); return; }
+      if (!state.selectedTime) { showToast('Selecciona un horario', 'error'); return; }
+      openCheckout();
+    });
+  }
 
   // Pay button
-  document.getElementById('payBtn').addEventListener('click', processPayment);
+  const payBtn = document.getElementById('payBtn');
+  if (payBtn) {
+    payBtn.addEventListener('click', processPayment);
+  }
 
   // WhatsApp float
-  document.getElementById('whatsappFloat').addEventListener('click', () => {
-    document.getElementById('chatWidget').classList.toggle('open');
-    if (document.getElementById('chatWidget').classList.contains('open')) {
-      state.chatStep = 0;
-    }
-  });
+  const whatsappFloat = document.getElementById('whatsappFloat');
+  if (whatsappFloat) {
+    whatsappFloat.addEventListener('click', () => {
+      const chatWidget = document.getElementById('chatWidget');
+      if (chatWidget) {
+        chatWidget.classList.toggle('open');
+        if (chatWidget.classList.contains('open')) {
+          state.chatStep = 0;
+        }
+      }
+    });
+  }
 
-  document.getElementById('chatClose').addEventListener('click', () => {
-    document.getElementById('chatWidget').classList.remove('open');
-  });
+  const chatClose = document.getElementById('chatClose');
+  if (chatClose) {
+    chatClose.addEventListener('click', () => {
+      const chatWidget = document.getElementById('chatWidget');
+      if (chatWidget) chatWidget.classList.remove('open');
+    });
+  }
 
-  document.getElementById('chatSend').addEventListener('click', sendChatMessage);
-  document.getElementById('chatInput').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') sendChatMessage();
-  });
+  const chatSend = document.getElementById('chatSend');
+  if (chatSend) {
+    chatSend.addEventListener('click', sendChatMessage);
+  }
+  const chatInput = document.getElementById('chatInput');
+  if (chatInput) {
+    chatInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') sendChatMessage();
+    });
+  }
 
   // Contact form
-  document.getElementById('contactForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    showToast('Mensaje enviado. Te responderemos a la brevedad.', 'success');
-    this.reset();
-  });
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      showToast('Mensaje enviado. Te responderemos a la brevedad.', 'success');
+      this.reset();
+    });
+  }
 
   // Billing form
-  document.getElementById('billingForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    showPaymentStep(2);
-    renderPaymentSummary();
-  });
+  const billingForm = document.getElementById('billingForm');
+  if (billingForm) {
+    billingForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      showPaymentStep(2);
+      renderPaymentSummary();
+    });
+  }
 
   // Lightbox
   const lbPrev = document.getElementById('lbPrev');
@@ -1090,10 +1153,12 @@ function init() {
   setTimeout(initStars, 200);
 
   // Start chat
-  setTimeout(() => {
-    const flow = CHAT_FLOW[0];
-    addChatOptions(flow.options);
-  }, 1000);
+  if (document.getElementById('chatMessages')) {
+    setTimeout(() => {
+      const flow = CHAT_FLOW[0];
+      addChatOptions(flow.options);
+    }, 1000);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);
